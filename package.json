@@ -10,10 +10,14 @@
   },
   "dependencies": {
     "antd": "^3.19.5",
+    "classnames": "^2.2.6",
     "dva": "^2.6.0-beta.6",
     "dva-logger": "^1.0.0",
     "react": "^16.8.6",
+    "react-container-query": "^0.11.0",
+    "react-document-title": "^2.0.3",
     "react-dom": "^16.8.6",
+    "react-media": "^1.9.2",
     "redux-persist": "^5.10.0"
   },
   "devDependencies": {
