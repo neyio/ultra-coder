@@ -1,9 +1,33 @@
+@import './custom.less';
+@import '~antd/lib/style/themes/default.less';
+@import './components/less/index.less';
+@import './pages/problem/_layout.less';
 html,
 body,
-#root {
+#root,
+.default-layout {
   height: 100%;
 }
 
 body {
   margin: 0;
+}
+
+// --- root
+.default-layout {
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+}
+
+.generate-pd-mg(18);
+
+.generate-pd-mg(@n, @i: 0) when (@i =< @n) {
+  .pd-@{i} {
+    padding: (@i*1px);
+  }
+  .mg-@{i} {
+    margin: (@i*1px);
+  }
+  .generate-pd-mg(@n, (@i + 1));
 }
