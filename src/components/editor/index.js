@@ -1,10 +1,10 @@
-import React from 'react';
-import uuid from 'uuid/v4';
-import BraftEditor from 'braft-editor'; // 引入编辑器组件
-import Markdown from 'braft-extensions/dist/markdown';
-import 'braft-editor/dist/index.css'; // 引入编辑器样式
-import 'braft-editor/dist/output.css';
-import 'braft-extensions/dist/code-highlighter.css';
+import React from './node_modules/react';
+import uuid from './node_modules/uuid/v4';
+import BraftEditor from './node_modules/braft-editor'; // 引入编辑器组件
+import Markdown from './node_modules/braft-extensions/dist/markdown';
+import './node_modules/braft-editor/dist/index.css'; // 引入编辑器样式
+import './node_modules/braft-editor/dist/output.css';
+import './node_modules/braft-extensions/dist/code-highlighter.css';
 BraftEditor.use(Markdown({}));
 // 定义rem基准值
 const sizeBase = 14;
