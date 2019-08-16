@@ -1,11 +1,10 @@
 import React from 'react';
-import Link from 'umi/link';
-import { Row, Col, Icon } from 'antd';
 import styled from 'styled-components';
-import classnames from 'classnames';
-import Header from './header';
-import styles from './_layout.less';
-const ProblemContainer = styled.section``;
+import ProblemTabs from '../../../components/Problem/ProblemTabs';
+import Header from '../../../components/Problem/Header';
+const ProblemContainer = styled.section`
+  background: #fff;
+`;
 const CodeContainer = styled.section``;
 
 export default function Layout(props) {
@@ -13,38 +12,7 @@ export default function Layout(props) {
   return (
     <section>
       <Header />
-      <Row type="flex" justify="start" className={styles.functionRow}>
-        <Col>
-          <div className={styles.tabButton}>
-            <Link to={`/problem/${id}`}>
-              <Icon type="profile" />
-              题目描述
-            </Link>
-          </div>
-        </Col>
-        <Col>
-          <div className={classnames(styles.tabButton)}>
-            <Link to={`/problem/${id}/description`}>
-              <Icon type="message" />
-              评论(3)
-            </Link>
-          </div>
-        </Col>
-        <Col className={styles.active}>
-          <div className={classnames(styles.tabButton)}>
-            <Link to={`/problem/${id}/discuss`}>
-              <Icon type="experiment" /> 解决方案(40)
-            </Link>
-          </div>
-        </Col>
-        <Col>
-          <div className={classnames(styles.tabButton)}>
-            <Link to={`/problem/${id}/discuss`}>
-              <Icon type="history" /> 提交记录
-            </Link>
-          </div>
-        </Col>
-      </Row>
+      <ProblemTabs id={id} />
       <ProblemContainer>{props.children}</ProblemContainer>
       <CodeContainer>
         <code>hello world!</code>

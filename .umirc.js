@@ -23,6 +23,7 @@ export default {
     'border-color-light': 'rgba(0, 0, 0, 0.05)', // 失效色
     'box-shadow-base': '0 2px 8px rgba(0, 0, 0, 0.10)', // 浮层阴影
     'btn-font-size-sm': '12px', //最小按钮的字号
+    'space-base': '0.5rem',
   },
   // history: 'hash', 是否为 hash路由
   plugins: [

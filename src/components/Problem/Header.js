@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Row, Col, Button, Divider } from 'antd';
-import styles from './_layout.less';
+import styles from './header.less';
 // import styled from 'styled-components';
 const Label = props => {
   return <div className={styles.headerLabel}>{props.children}</div>;

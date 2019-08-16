@@ -1,0 +1,35 @@
+.header {
+  padding: @space-base*2 @space-base*3;
+  box-shadow: @box-shadow-base;
+  .headerTitle {
+    font-size: @font-size-medium;
+  }
+  .headerContent,
+  .headerTextButton {
+    font-size: @font-size-small;
+  }
+  .headerContent span {
+    margin-right: @space-base;
+    &.success {
+      color: @success-color;
+    }
+  }
+  .headerLabel {
+    font-size: @font-size-base;
+    line-height: @font-size-base+8px;
+    @color: @text-color;
+    text-align: center;
+  }
+  .headerCounter {
+    font-size: @font-size-base;
+    line-height: @font-size-base+8px;
+    color: @heading-color;
+    text-align: center;
+    font-family: sans-serif;
+    font-weight: bold;
+  }
+  .verticalDivider {
+    height: 70%;
+    margin: 0 1rem;
+  }
+}
