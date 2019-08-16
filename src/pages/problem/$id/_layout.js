@@ -8,6 +8,8 @@ import CodeEditor from '../../../components/CodeEditor';
 import Navigator from '../../../components/Problem/Navigator';
 const ProblemContainer = styled.section`
   background: transparent;
+  height: cacl(100vh - 450px);
+  overflow: scroll;
 `;
 const CodeContainer = styled.section`
   min-width: 512px;

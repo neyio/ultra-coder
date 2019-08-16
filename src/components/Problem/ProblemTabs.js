@@ -23,12 +23,12 @@ export default class ProblemTabs extends Component {
         {
           icon: 'message',
           title: `评论(${comment})`,
-          link: `/problem/${id}/description`,
+          link: `/problem/${id}/comment`,
         },
         {
           icon: 'experiment',
           title: `解决方案(${solution})`,
-          link: `/problem/${id}/discuss`,
+          link: `/problem/${id}/solution`,
         },
         {
           icon: 'history',
