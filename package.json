@@ -9,13 +9,16 @@
     "precommit": "lint-staged"
   },
   "dependencies": {
+    "@uiw/react-codemirror": "^1.0.27",
     "antd": "^3.21.4",
     "braft-editor": "^2.3.7",
     "braft-extensions": "^0.0.18",
     "classnames": "^2.2.6",
+    "codemirror": "^5.48.2",
     "dva": "^2.6.0-beta.12",
     "dva-logger": "^1.0.0",
     "react": "^16.8.6",
+    "react-codemirror2": "^6.0.0",
     "react-container-query": "^0.11.0",
     "react-document-title": "^2.0.3",
     "react-dom": "^16.8.6",

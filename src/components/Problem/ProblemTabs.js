@@ -1,43 +1,56 @@
 import React, { Component } from 'react';
 import { Row, Col, Icon } from 'antd';
-import classnames from 'classnames';
 import Link from 'umi/link';
 import styles from './problemTabs.less';
-export default class index extends Component {
+export default class ProblemTabs extends Component {
+  static defaultProps = {
+    comment: 32,
+    solution: 10,
+    history: 3,
+  };
   render() {
-    const { id } = this.props;
+    const {
+      id,
+      comment = 0,
+      solution = 40,
+      history = 9,
+      tabs = [
+        {
+          icon: 'profile',
+          title: '题目描述',
+          link: `/problem/${id}`,
+        },
+        {
+          icon: 'message',
+          title: `评论(${comment})`,
+          link: `/problem/${id}/description`,
+        },
+        {
+          icon: 'experiment',
+          title: `解决方案(${solution})`,
+          link: `/problem/${id}/discuss`,
+        },
+        {
+          icon: 'history',
+          title: `提交记录(${history})`,
+          link: `/problem/${id}/history`,
+        },
+      ],
+    } = this.props;
     return (
       <Row type="flex" justify="start" className={styles.functionRow}>
-        <Col>
-          <div className={styles.tabButton}>
-            <Link to={`/problem/${id}`}>
-              <Icon type="profile" />
-              题目描述
-            </Link>
-          </div>
-        </Col>
-        <Col>
-          <div className={classnames(styles.tabButton)}>
-            <Link to={`/problem/${id}/description`}>
-              <Icon type="message" />
-              评论(3)
-            </Link>
-          </div>
-        </Col>
-        <Col className={styles.active}>
-          <div className={classnames(styles.tabButton)}>
-            <Link to={`/problem/${id}/discuss`}>
-              <Icon type="experiment" /> 解决方案(40)
-            </Link>
-          </div>
-        </Col>
-        <Col>
-          <div className={classnames(styles.tabButton)}>
-            <Link to={`/problem/${id}/history`}>
-              <Icon type="history" /> 提交记录
-            </Link>
-          </div>
-        </Col>
+        {tabs.map((tab, index) => {
+          return (
+            <Col key={index}>
+              <div className={styles.tabButton}>
+                <Link to={tab.link}>
+                  <Icon type={tab.icon} />
+                  {tab.title}
+                </Link>
+              </div>
+            </Col>
+          );
+        })}
       </Row>
     );
   }
