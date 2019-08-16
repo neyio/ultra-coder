@@ -5,10 +5,13 @@ import Header from '../../../components/Problem/Header';
 import styles from './_layout.less';
 import { Icon, Button } from 'antd';
 import CodeEditor from '../../../components/CodeEditor';
+import Navigator from '../../../components/Problem/Navigator';
 const ProblemContainer = styled.section`
   background: transparent;
 `;
-const CodeContainer = styled.section``;
+const CodeContainer = styled.section`
+  min-width: 512px;
+`;
 const Divider = styled.div`
   background: linear-gradient(180deg, #fafafa 10%, #fff 90%);
   color: #b0bec5;
@@ -33,8 +36,7 @@ export default class Layout extends React.Component {
   _codeRef = null;
   _problemRef = null;
   _tempEvent = null;
-
-  componentDidMount() {}
+  _tempEvent2 = null;
 
   onMouseMoveHandler = bodyWidth => ({ clientX }) => {
     const percent = (clientX / bodyWidth) * 2;
@@ -46,6 +48,11 @@ export default class Layout extends React.Component {
     const bodyWidth = document.body.scrollWidth;
     this._tempEvent = this._tempEvent || this.onMouseMoveHandler(bodyWidth);
     document.addEventListener('mousemove', this._tempEvent);
+    this._tempEvent2 = () => {
+      this.clearMoveHandler();
+      document.removeEventListener('mouseup', this._tempEvent2);
+    };
+    document.addEventListener('mouseup', this._tempEvent2);
   };
 
   clearMoveHandler = () => {
@@ -66,7 +73,8 @@ export default class Layout extends React.Component {
             className={styles.problemContainer}
           >
             <ProblemTabs id={id} />
-            {props.children}
+            <div className={styles.subrouterContainer}>{props.children}</div>
+            <Navigator />
           </ProblemContainer>
           <Divider onMouseDown={this.resizeHandlerMouseDown} onMouseUp={this.clearMoveHandler}>
             <Icon type="more" />
@@ -78,10 +86,11 @@ export default class Layout extends React.Component {
             className={styles.codeContainer}
           >
             <CodeEditor
-              height="500px"
               extra={
                 <span>
                   <Button type="link" icon="info" />
+                  <Button type="link" icon="setting" />
+                  <Button type="link" icon="fullscreen" />
                 </span>
               }
             />

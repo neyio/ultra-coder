@@ -77,7 +77,7 @@ export default class CodeEditor extends Component {
   }
 
   render() {
-    const { content, extra, language, height } = this.props;
+    const { content, extra, language } = this.props;
     return (
       <CodeContainer>
         <Row type="flex" justify="space-between" className={styles.codeTools}>

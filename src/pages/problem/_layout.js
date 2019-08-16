@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Context from './_context';
 import Header from '../../components/layout/header';
-import Footer from '../../components/layout/footer';
+// import Footer from '../../components/layout/footer';
 import { Divider } from '../../components/layout/divider';
 export default class ProblemLayout extends Component {
   render() {
@@ -16,7 +16,7 @@ export default class ProblemLayout extends Component {
             <Context.Provider value={{}}>{this.props.children}</Context.Provider>
           </section>
         </main>
-        <Footer />
+        {/* <Footer /> */}
       </React.Fragment>
     );
   }

@@ -7,7 +7,7 @@ const persistConfig = {
   timeout: 5000, // you can define your time. But is required.
   key: 'redux',
   storage,
-  whitelist: [],
+  whitelist: ['problem'],
   stateReconciler: autoMergeLevel2,
 };
 
@@ -37,5 +37,5 @@ export const dva = {
     },
     extraEnhancers: [persistEnhancer()],
   },
-  plugins,
+  plugins: [...plugins, { onReducer: reducer => persistReducer(persistConfig, reducer) }],
 };
