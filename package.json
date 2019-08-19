@@ -19,7 +19,6 @@
     "dva-logger": "^1.0.0",
     "moment": "^2.24.0",
     "react": "^16.8.6",
-    "react-codemirror2": "^6.0.0",
     "react-container-query": "^0.11.0",
     "react-document-title": "^2.0.3",
     "react-dom": "^16.8.6",

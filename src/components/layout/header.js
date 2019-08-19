@@ -8,6 +8,7 @@ export default function Header({
 }) {
   return (
     <PageHeader
+      className="ultra-header"
       title={
         <React.Fragment>
           {title}

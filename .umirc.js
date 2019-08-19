@@ -20,7 +20,8 @@ export default {
     'disabled-color': 'rgba(0, 0, 0, .25)', // 失效色
     'border-radius-base': '4px', // 组件/浮层圆角
     'border-color-base': '#d9d9d9', // 边框色
-    'border-color-light': 'rgba(0, 0, 0, 0.05)', // 失效色
+    'border-color-light': 'rgba(0, 0, 0, 0.05)', // 几乎不可见
+    'border-color-fake': '#f8f8f8', //浅色
     'box-shadow-base': '0 2px 8px rgba(0, 0, 0, 0.10)', // 浮层阴影
     'btn-font-size-sm': '12px', //最小按钮的字号
     'space-base': '0.5rem',
@@ -31,6 +32,7 @@ export default {
       'umi-plugin-react', // ref: https://umijs.org/plugin/umi-plugin-react.html
       {
         antd: true,
+        chunks: ['vendors', 'umi'],
         dva: {
           hmr: true,
           immer: true, // 用以简写reducer，不必每次返回一个新对象了，只需要对需要赋值的代码直接赋值即可
@@ -46,6 +48,7 @@ export default {
             /model\.(t|j)sx?$/,
             /service\.(t|j)sx?$/,
             /components\//,
+            /plugins\//,
           ],
         },
         // ssr: {
@@ -62,5 +65,17 @@ export default {
         // },
       },
     ],
+    './src/extras/authorization',
   ],
 };
+
+/*
+ * 增加优化插件 打包插件
+ *  plugins: [
+ *   ['umi-plugin-auto-externals', {
+ *     packages: [ 'antd' ],
+ *     urlTemplate: 'https://unpkg.com/{{ library }}@{{ version }}/{{ path }}',
+ *     checkOnline: false,
+ *   }],
+ * ],
+ **/
