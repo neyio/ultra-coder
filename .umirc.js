@@ -1,5 +1,6 @@
 // ref: https://umijs.org/config/
 // 配置见 https://umijs.org/zh/plugin/umi-plugin-react.html#%E4%BD%BF%E7%94%A8
+const APP_NAME = 'Ultra Code Online Judge';
 export default {
   treeShaking: true,
   theme: {
@@ -38,7 +39,7 @@ export default {
           immer: true, // 用以简写reducer，不必每次返回一个新对象了，只需要对需要赋值的代码直接赋值即可
         },
         dynamicImport: { webpackChunkName: true },
-        title: 'UltraCode Online Judge',
+        title: APP_NAME,
         dll: true,
         fastClick: true,
         routes: {
@@ -65,7 +66,12 @@ export default {
         // },
       },
     ],
-    './src/extras/authorization',
+    [
+      './src/extras/authorization',
+      {
+        appName: APP_NAME,
+      },
+    ],
   ],
 };
 

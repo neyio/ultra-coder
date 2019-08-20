@@ -18,13 +18,15 @@
     "dva": "^2.6.0-beta.12",
     "dva-logger": "^1.0.0",
     "moment": "^2.24.0",
+    "path-to-regexp": "^3.0.0",
     "react": "^16.8.6",
     "react-container-query": "^0.11.0",
     "react-document-title": "^2.0.3",
     "react-dom": "^16.8.6",
     "react-media": "^1.9.2",
     "redux-persist": "^5.10.0",
-    "styled-components": "^4.3.2"
+    "styled-components": "^4.3.2",
+    "umi-request": "^1.2.2"
   },
   "devDependencies": {
     "babel-eslint": "^9.0.0",
@@ -34,6 +36,7 @@
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-jsx-a11y": "^5.1.1",
     "eslint-plugin-react": "^7.11.1",
+    "eslint-plugin-react-hooks": "^1.7.0",
     "husky": "^0.14.3",
     "lint-staged": "^7.2.2",
     "mockjs": "^1.0.1-beta3",

@@ -80,4 +80,4 @@ const proxy = {
 };
 
 // 调用 delay 函数，统一处理
-export default delay(proxy, 1000);
+export default delay(proxy, 300);
