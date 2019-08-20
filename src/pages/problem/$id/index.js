@@ -7,9 +7,10 @@
  *   - ./src/pages/problem/$id/history.js
  */
 import React from 'react';
-// import { req } from '@/utils/request';
+import req, { routeMap } from '@/utils/routes';
 export default function Index({ match }) {
-  // req('post.comment.get', { postId: 1 }, { name: 'name' });
+  req('post.comment.show', { postId: 1, commentId: 2 }, { name: '3' });
+  console.log(routeMap);
   const { id } = match.params;
   return <div>Index- {id}</div>;
 }
