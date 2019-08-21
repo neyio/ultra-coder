@@ -71,6 +71,7 @@ const proxy = {
 2. `1 <= str2.length <= 1000`\
 3. `str1[i]` 和  `str2[i]` 为大写英文字母\n',
   },
+
   'GET /api/tags': mockjs.mock({
     'list|100': [{ name: '@city', 'value|1-100': 50, 'type|0-2': 1 }],
   }),
