@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Comment, Tooltip, Icon, Button } from 'antd';
 import moment from 'moment';
 import DynamicList from '@/components/Dynamic/List';
@@ -16,8 +16,11 @@ const Item = props => {
             <Tooltip title="Like">
               <ButtonAction
                 icon="like"
-                onClick={(props) => {
-                  console.log('ButtonAction',props);
+                onClick={props => {
+                  console.log('ButtonAction', props);
+                }}
+                callback={setProxy => {
+                  setProxy({ icon: 'dislike' });
                 }}
                 shape="circle"
                 type="link"
@@ -25,7 +28,9 @@ const Item = props => {
                   keyChain: 'post.comment.get',
                   params: { postId: 1, commentId: 1 },
                 }}
-              />
+              >
+                {data.title}
+              </ButtonAction>
             </Tooltip>
             <span style={{ paddingLeft: 8, cursor: 'auto' }}>4</span>
           </span>,
@@ -102,12 +107,18 @@ const Item = props => {
 };
 
 const History = props => {
+  const [test, setTitle] = useState({ title: 'helo' });
+  useEffect(() => {
+    setTimeout(() => {
+      setTitle({ title: 'xxx' });
+    }, 1000);
+  }, []);
   return (
     <DynamicList
       items={['a', 'b']}
       request={['post.comment.get', { postId: 1 }, { size: 10, page: 1 }]}
       renderItem={(item, index) => {
-        return <Item data={item} />;
+        return <Item data={test} />;
       }}
     />
   );
