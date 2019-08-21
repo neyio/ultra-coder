@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState } from 'react';
 import request from '@/utils/routes';
 import assert from 'assert';
+
 const pickNotInKeys = (obj, keys) =>
   Object.keys(obj).reduce((pre, i) => {
     return keys.includes(i) ? { ...pre } : { ...pre, [i]: obj[i] };
@@ -15,13 +16,21 @@ const DynamicAction = WrappedComponent => {
     },
     ...props
   }) => {
+    const preProps = { onClick, action, callback, ...props };
     const [loading, setLoading] = useState(false);
-    const [proxy, setProxy] = useState({ onClick, action, callback, ...props });
-    const reducer = state => setProxy(pre => ({ ...pre, ...state }));
-
+    const [observer, setObserver] = useState({});
+    const reducer = async arg => {
+      if (typeof arg === 'object') {
+        setObserver(pre => ({ ...pre, ...arg }));
+      }
+      if (typeof arg === 'function') {
+        setObserver(await arg());
+      }
+    };
+    const newProps = { ...preProps, ...observer };
     return (
       <WrappedComponent
-        {...pickNotInKeys(proxy, ['callback'])}
+        {...pickNotInKeys(newProps, ['callback'])}
         onClick={async () => {
           setLoading(true);
           await onClick();
@@ -30,7 +39,7 @@ const DynamicAction = WrappedComponent => {
               const { keyChain, params = {}, body = {}, extra = {} } = action;
               assert(action.keyChain, 'action.keyChain 必须输入，详见 @/utils/routes');
               await request(keyChain, params, body, extra); // 发起请求
-              callback(reducer, proxy);
+              callback(reducer, observer);
             } else {
               throw new Error(
                 'props.action is not an object with attributes [keyChain,body={any queryBody},params={id:x},extra={any}] ',

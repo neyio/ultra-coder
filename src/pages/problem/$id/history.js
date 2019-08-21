@@ -13,71 +13,61 @@ const Item = props => {
       {...{
         actions: [
           <span key="comment-basic-moretest">
-            <Tooltip title="Like">
-              <ButtonAction
-                icon="like"
-                onClick={props => {
-                  console.log('ButtonAction', props);
-                }}
-                callback={setProxy => {
-                  setProxy({ icon: 'dislike' });
-                }}
-                shape="circle"
-                type="link"
-                action={{
-                  keyChain: 'post.comment.get',
-                  params: { postId: 1, commentId: 1 },
-                }}
-              >
-                {data.title}
-              </ButtonAction>
-            </Tooltip>
+            <ButtonAction
+              style={{ fontSize: '12px' }}
+              icon="like"
+              onClick={props => {
+                console.log('ButtonAction', props);
+              }}
+              callback={(set, state) => {
+                set({ icon: state.icon === 'like' ? 'dislike' : 'like' });
+              }}
+              shape="circle"
+              type="link"
+              action={{
+                keyChain: 'post.comment.get',
+                params: { postId: 1, commentId: 1 },
+              }}
+            >
+              {data.title}
+            </ButtonAction>
             <span style={{ paddingLeft: 8, cursor: 'auto' }}>4</span>
           </span>,
           <span key="comment-basic-moretest">
-            <Tooltip title="Like">
-              {/* theme 'outlined' */}
-              <IconAction
-                type="like"
-                theme={'filled'}
-                onClick={() => {
-                  console.log('like');
-                }}
-                action={{
-                  keyChain: 'post.comment.get',
-                  params: { postId: 1, commentId: 1 },
-                }}
-              />
-            </Tooltip>
+            <IconAction
+              type="like"
+              theme={'filled'}
+              onClick={() => {
+                console.log('like');
+              }}
+              action={{
+                keyChain: 'post.comment.get',
+                params: { postId: 1, commentId: 1 },
+              }}
+            />
             <span style={{ paddingLeft: 8, cursor: 'auto' }}>4</span>
           </span>,
           <span key="comment-basic-like">
-            <Tooltip title="Like">
-              {/* theme 'outlined' */}
-              <Icon
-                type="like"
-                theme={'filled'}
-                onClick={() => {
-                  console.log('like');
-                }}
-              />
-            </Tooltip>
+            <Icon
+              type="like"
+              theme={'filled'}
+              onClick={() => {
+                console.log('like');
+              }}
+            />
             <span style={{ paddingLeft: 8, cursor: 'auto' }}>4</span>
           </span>,
           <span key="comment-basic-dislike">
-            <Tooltip title="Dislike">
-              {/* theme 'filled' */}
-              <Icon
-                type="dislike"
-                theme={'filled'}
-                onClick={() => {
-                  console.log('dislike');
-                }}
-              />
-            </Tooltip>
+            <Icon
+              type="dislike"
+              theme={'filled'}
+              onClick={() => {
+                console.log('dislike');
+              }}
+            />
             <span style={{ paddingLeft: 8, cursor: 'auto' }}>8</span>
           </span>,
-          <span key="comment-basic-reply-to">Reply to</span>,
+          <span key="comment-basic-reply-to">回复</span>,
         ],
         author: 'Han Solo' + data.title,
         avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
@@ -110,7 +100,7 @@ const History = props => {
   const [test, setTitle] = useState({ title: 'helo' });
   useEffect(() => {
     setTimeout(() => {
-      setTitle({ title: 'xxx' });
+      setTitle({ title: 4 });
     }, 1000);
   }, []);
   return (
