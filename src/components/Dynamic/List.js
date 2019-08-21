@@ -8,7 +8,7 @@ import classnames from 'classnames';
  */
 export default function DynamicList({
   items = [],
-  request = [],
+  action = [],
   itemLayout = 'horizontal',
   renderItem = () => null,
   page: initPage = 1,
@@ -19,7 +19,7 @@ export default function DynamicList({
     return null;
   },
 }) {
-  const [keyChain = null, params = {}, options = {}] = request;
+  const { keyChain = null, params = {}, extra = {} } = action;
   const [data, setData] = useState(items);
   const [loading, setLoading] = useState(true);
   const [total, setTotal] = useState(0);
@@ -32,7 +32,7 @@ export default function DynamicList({
       try {
         setLoading(true);
         const response = await req(keyChain, params, {
-          ...options,
+          ...extra,
           page,
           size,
         });
@@ -45,15 +45,15 @@ export default function DynamicList({
           total: currentTotal,
         } = response;
         currentData && setData(currentData);
-        currentSize && setSize(currentSize);
-        currentPage && setPage(currentPage);
+        currentSize && setSize(size);
+        currentPage && setPage(page);
         currentTotal && setTotal(currentTotal);
       } catch (e) {
         message.error('获取数据失败');
         console.error(e);
       }
     }
-  }, [params, options, keyChain, page, size]);
+  }, [params, extra, keyChain, page, size]);
 
   useEffect(() => {
     momCallback();

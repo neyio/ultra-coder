@@ -3,11 +3,40 @@ import { ConfigProvider } from 'antd';
 import zhCN from 'antd/es/locale-provider/zh_CN';
 import Context from './_context';
 import Header from '../../components/layout/header';
-
 // import Footer from '../../components/layout/footer';
 import { Divider } from '../../components/layout/divider';
-export default class ProblemLayout extends Component {
+import { connect } from 'dva';
+@connect(
+  ({ problem }) => {
+    return {
+      problem,
+    };
+  },
+  dispatch => {
+    return {
+      loadProblemStatistics(
+        callback = () => {
+          console.log('loadProblemStatistics loaded');
+        },
+      ) {
+        dispatch({
+          type: 'problem/loadProblemStatistics',
+          payload: callback,
+        });
+      },
+    };
+  },
+)
+class ProblemLayout extends Component {
+  componentDidMount() {
+    const { loadProblemStatistics } = this.props;
+    loadProblemStatistics &&
+      loadProblemStatistics(() => {
+        console.log('loaded ok!');
+      });
+  }
   render() {
+    const { problem } = this.props;
     return (
       <React.Fragment>
         <ConfigProvider locale={zhCN}>
@@ -17,7 +46,7 @@ export default class ProblemLayout extends Component {
           {/* 题目区块 前往 $id文件夹中找寻答案吧 */}
           <main className="ultra-problem-main">
             <section className="ultra-container">
-              <Context.Provider value={{}}>{this.props.children}</Context.Provider>
+              <Context.Provider value={problem}>{this.props.children}</Context.Provider>
             </section>
           </main>
           {/* <Footer /> */}
@@ -26,3 +55,4 @@ export default class ProblemLayout extends Component {
     );
   }
 }
+export default ProblemLayout;

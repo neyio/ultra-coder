@@ -9,14 +9,14 @@ const pickNotInKeys = (obj, keys) =>
 
 const DynamicAction = WrappedComponent => {
   const Component = ({
-    eventType = 'onClick',
+    eventtype = 'onClick',
     action,
     callback = r => {
       console.log(r);
     },
     ...props
   }) => {
-    const preProps = { eventType, action, callback, ...props };
+    const preProps = { eventtype, action, callback, ...props };
     const [loading, setLoading] = useState(false);
     const [observer, setObserver] = useState({});
     const reducer = async arg => {
@@ -27,7 +27,7 @@ const DynamicAction = WrappedComponent => {
         setObserver(await arg());
       }
     };
-    const originEventHandler = props[eventType] || (() => {});
+    const originEventHandler = props[eventtype] || (() => {});
     const eventHandler = async () => {
       setLoading(true);
       await originEventHandler();
@@ -47,7 +47,7 @@ const DynamicAction = WrappedComponent => {
       }
       setLoading(false);
     };
-    const newProps = { ...preProps, ...observer, [eventType]: eventHandler };
+    const newProps = { ...preProps, ...observer, [eventtype]: eventHandler };
     return (
       <WrappedComponent {...pickNotInKeys(newProps, ['callback', 'action'])} disabled={loading} />
     );

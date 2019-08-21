@@ -1,6 +1,17 @@
 import pathToRegexp from 'path-to-regexp';
 import Request from './request';
-
+//使用方法见 96行
+const manualMixUrl = (prefix, url = false) => method => {
+  return url
+    ? {
+        url: `${prefix}/${url}`,
+        method,
+      }
+    : {
+        url: `${prefix}`,
+        method,
+      };
+};
 export const METHODS = {
   DESTROY: 'delete', // 删除
   GET: 'get', // 获取
@@ -13,6 +24,10 @@ export const METHODS = {
  * 系统路由表
  */
 export const routeMap = {
+  problem: { ...generateRestfullRoutes('problem') },
+  statistics: {
+    problem: manualMixUrl('/api/statistics', 'problem')('get'),
+  },
   post: {
     ...generateRestfullRoutes('post'),
     comment: {
@@ -46,6 +61,7 @@ export const createRequest = request => (keyChain, ...args) => {
     if (!parsedRoute) {
       throw new Error(`路由表解码错误，请检查${route}的路由`);
     } else {
+      console.log('keyChain=>', keyChain, 'route=>', route, 'parsedRoute=>', parsedRoute);
       const needParams = parsedRoute.reduce((pre, i) => {
         if (typeof i === 'object' && !i.optional) {
           return pre + 1;
@@ -78,9 +94,12 @@ export const createRequest = request => (keyChain, ...args) => {
   }
 };
 
+// 使用方法
+// import req, { routeMap } from '@/utils/routes';
+// req('post.comment.show', { postId: 1, commentId: 2 }, { name: '3' });
 export default createRequest(Request);
 
-function mixUrl(prefix, root, sub = false, ignoreSub = false) {
+function mixUrl(prefix, root = false, sub = false, ignoreSub = false) {
   if (ignoreSub) return sub ? `${prefix}/${root}/:${root}Id/${sub}` : `${prefix}/${root}`;
   return sub ? `${prefix}/${root}/:${root}Id/${sub}/:${sub}Id` : `${prefix}/${root}/:id`;
 }

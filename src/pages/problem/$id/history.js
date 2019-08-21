@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Comment, Tooltip, Icon, Button } from 'antd';
 import moment from 'moment';
 import DynamicList from '@/components/Dynamic/List';
@@ -14,6 +14,7 @@ const Item = props => {
         actions: [
           <span key="comment-basic-moretest">
             <ButtonAction
+              eventtype="onClick"
               style={{ fontSize: '12px' }}
               icon="like"
               onClick={props => {
@@ -97,18 +98,12 @@ const Item = props => {
 };
 
 const History = props => {
-  const [test, setTitle] = useState({ title: 'helo' });
-  useEffect(() => {
-    setTimeout(() => {
-      setTitle({ title: 4 });
-    }, 1000);
-  }, []);
   return (
     <DynamicList
-      items={['a', 'b']}
-      request={['post.comment.get', { postId: 1 }, { size: 10, page: 1 }]}
+      items={[]}
+      action={{ keyChain: 'post.comment.get', params: { postId: 1 }, extra: { size: 10, page: 1 } }}
       renderItem={(item, index) => {
-        return <Item data={test} />;
+        return <Item data={item} />;
       }}
     />
   );
