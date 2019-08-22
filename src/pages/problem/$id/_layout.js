@@ -39,11 +39,15 @@ export default class Layout extends React.Component {
   _problemRef = null;
   _tempEvent = null;
   _tempEvent2 = null;
-
+  _unableSelect = () => {
+    return false;
+  };
   onMouseMoveHandler = bodyWidth => ({ clientX }) => {
     const percent = (clientX / bodyWidth) * 2;
     this._problemRef.style.flex = percent;
+    this._problemRef.style.WebkitUserSelect = 'none';
     this._codeRef.style.flex = 2 - percent;
+    this._codeRef.style.WebkitUserSelect = 'none';
   };
 
   resizeHandlerMouseDown = () => {
@@ -59,6 +63,8 @@ export default class Layout extends React.Component {
 
   clearMoveHandler = () => {
     document.removeEventListener('mousemove', this._tempEvent);
+    this._codeRef.style.WebkitUserSelect = null;
+    this._problemRef.style.WebkitUserSelect = null;
   };
 
   render() {
