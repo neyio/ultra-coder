@@ -18,9 +18,11 @@ marked.setOptions({
 });
 export default class MarkdownViewer extends Component {
   render() {
+    const { style = {} } = this.props;
     return (
       <div
         className={styles['markdown-section']}
+        style={{ ...style, maxHeight: style.maxHeight || '100%' }}
         dangerouslySetInnerHTML={{ __html: marked(this.props.content) }}
       />
     );

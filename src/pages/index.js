@@ -7,9 +7,9 @@ export default function Index(props) {
   return (
     <div className={styles.normal}>
       <div className={styles.welcome} />
-      <div style={{ width: '660px', padding: '3rem', height: '440px' }}>
-        <MarkdownEditor />
-      </div>
+
+      <MarkdownEditor className={styles.markdownEditor} />
+
       <ul className={styles.list}>
         <li>
           To get started, edit <code>src/pages/index.js</code> and save to reload.
