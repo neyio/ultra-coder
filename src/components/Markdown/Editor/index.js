@@ -73,9 +73,14 @@ function Editor({
   defaultValue = '',
   maxHeight = '600px',
   minRows = 3,
+  width = '100%',
   className = '',
   bodyStyle = {},
   contentStyle = {},
+  okText = '提交',
+  onOk = () => {
+    console.log('onOk fired');
+  },
   maxRows,
 }) {
   const domRef = useRef(null);
@@ -89,6 +94,7 @@ function Editor({
   return (
     <Card
       className={classnames(styles.editorContainer, className)}
+      style={{ width: width || '100%' }}
       size="small"
       hoverable
       type="inner"
@@ -96,65 +102,67 @@ function Editor({
       actions={[
         <div className={classnames(styles.footerBar)}>
           <span className={styles.footBarLeftPart}>
-            <ButtonGroup>
-              <Button
-                type="link"
-                onClick={() => {
-                  insertDom('quotes');
-                }}
-              >
-                <IconFont type="icon-yinyong" />
-              </Button>
-              <Button
-                type="link"
-                onClick={() => {
-                  insertDom('unOrderedList');
-                }}
-              >
-                <IconFont type="icon-wuxuliebiao" />
-              </Button>
+            {!preview && (
+              <ButtonGroup>
+                <Button
+                  type="link"
+                  onClick={() => {
+                    insertDom('quotes');
+                  }}
+                >
+                  <IconFont type="icon-yinyong" />
+                </Button>
+                <Button
+                  type="link"
+                  onClick={() => {
+                    insertDom('unOrderedList');
+                  }}
+                >
+                  <IconFont type="icon-wuxuliebiao" />
+                </Button>
 
-              <Button
-                type="link"
-                onClick={() => {
-                  insertDom('orderedList');
-                }}
-              >
-                <IconFont type="icon-youxuliebiao" />
-              </Button>
-              <Button
-                type="link"
-                onClick={() => {
-                  insertDom('deleteLine');
-                }}
-              >
-                <IconFont type="icon-shanchuxian" />
-              </Button>
-              <Button
-                type="link"
-                onClick={() => {
-                  insertDom('code');
-                }}
-              >
-                <IconFont type="icon-charudaima" />
-              </Button>
-              <Button
-                type="link"
-                onClick={() => {
-                  insertDom('bold');
-                }}
-              >
-                <IconFont type="icon-jiacu" />
-              </Button>
-              <Button
-                type="link"
-                onClick={() => {
-                  insertDom('link');
-                }}
-              >
-                <IconFont type="icon-chaolianjie" />
-              </Button>
-            </ButtonGroup>
+                <Button
+                  type="link"
+                  onClick={() => {
+                    insertDom('orderedList');
+                  }}
+                >
+                  <IconFont type="icon-youxuliebiao" />
+                </Button>
+                <Button
+                  type="link"
+                  onClick={() => {
+                    insertDom('deleteLine');
+                  }}
+                >
+                  <IconFont type="icon-shanchuxian" />
+                </Button>
+                <Button
+                  type="link"
+                  onClick={() => {
+                    insertDom('code');
+                  }}
+                >
+                  <IconFont type="icon-charudaima" />
+                </Button>
+                <Button
+                  type="link"
+                  onClick={() => {
+                    insertDom('bold');
+                  }}
+                >
+                  <IconFont type="icon-jiacu" />
+                </Button>
+                <Button
+                  type="link"
+                  onClick={() => {
+                    insertDom('link');
+                  }}
+                >
+                  <IconFont type="icon-chaolianjie" />
+                </Button>
+              </ButtonGroup>
+            )}
           </span>
           <span className={styles.footBarRightPart}>
             <Button
@@ -166,8 +174,8 @@ function Editor({
               {preview ? '编辑' : '预览'}
             </Button>
             <Divider type="vertical" />
-            <Button type="primary" size="small" icon="upload">
-              评论
+            <Button type="primary" size="small" onClick={onOk}>
+              {okText}
             </Button>
           </span>
         </div>,

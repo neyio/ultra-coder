@@ -17,7 +17,7 @@ class Index extends Component {
     const {
       user: { nickname },
     } = this.props;
-    return <div>{nickname} - index.js</div>;
+    return <div>{nickname} - 用户 排名或者解题 列表</div>;
   }
 }
 export default Index;

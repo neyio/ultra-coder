@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { ConfigProvider } from 'antd';
 import zhCN from 'antd/es/locale-provider/zh_CN';
 import Context from './_context';
-import Header from '../../components/layout/header';
+import Header from '../../components/layout/Header';
 // import Footer from '../../components/layout/footer';
-import { Divider } from '../../components/layout/divider';
+import { Divider } from '../../components/layout/Divider';
 import { connect } from 'dva';
 @connect(
   ({ problem }) => {

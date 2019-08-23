@@ -4,17 +4,20 @@ export default function AuthorizationPagesInjectPlugin(api, { appName = 'Neyio' 
     {
       path: '/login',
       title: `${appName} | 登录`,
+      layout: './pages/_layout.js',
       component: path.join(__dirname, './pages/Login.js'),
     },
     {
       path: '/register',
       title: `${appName} | 注册`,
+      layout: './pages/_layout.js',
       component: path.join(__dirname, './pages/Register.js'),
     },
     {
-      path: '/forget',
+      path: '/forgot-password',
       title: `${appName} | 忘记密码`,
-      component: path.join(__dirname, './pages/ForgetPassword.js'),
+      layout: './pages/_layout.js',
+      component: path.join(__dirname, './pages/ForgotPassword.js'),
     },
   ];
   api.modifyRoutes(routes => {
@@ -22,5 +25,9 @@ export default function AuthorizationPagesInjectPlugin(api, { appName = 'Neyio' 
     return [...mappedRoutes.values()];
   });
   const extraWatchPaths = extraRoutes.map(i => i.component);
+  extraWatchPaths.concat(
+    path.join(__dirname, './index.less'),
+    path.join(__dirname, './pages/_layout.js'),
+  );
   api.addPageWatcher(extraWatchPaths);
 }
