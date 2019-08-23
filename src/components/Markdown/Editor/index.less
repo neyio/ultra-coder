@@ -1,0 +1,39 @@
+.editorContainer {
+  font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', Helvetica,
+    Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  .icon {
+    width: 1em;
+    height: 1em;
+    vertical-align: -0.15em;
+    fill: currentColor;
+    overflow: hidden;
+  }
+}
+
+.footerBar {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  justify-content: space-between;
+  margin: -7px 5px -7px 10px;
+  align-items: center;
+}
+.footBarLeftPart,
+.footBarRightPart {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  & > button {
+    margin-right: 5px;
+  }
+}
+
+.previewer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  text-align: left;
+}

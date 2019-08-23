@@ -52,6 +52,9 @@ export default {
             /plugins\//,
           ],
         },
+        metas: [{ charset: 'utf-8' }],
+        // links: [{ rel: 'stylesheet', href: '/markdown.css' }],
+        // scripts: [{ src: '/iconfont.js' }],
         // ssr: {
         //   // https://github.com/liady/webpack-node-externals#optionswhitelist-
         //   externalWhitelist: [],
