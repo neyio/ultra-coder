@@ -5,4 +5,3 @@ export default class Register extends Component {
     return <div>注册页面 haha</div>;
   }
 }
-

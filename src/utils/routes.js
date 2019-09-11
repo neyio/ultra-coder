@@ -1,5 +1,6 @@
 import pathToRegexp from 'path-to-regexp';
 import Request from './request';
+import { pickAll, omit } from 'ramda';
 //使用方法见 96行
 const manualMixUrl = (prefix, url = false) => method => {
   return url
@@ -19,6 +20,98 @@ export const METHODS = {
   UPDATE: 'put', // 更新
   SHOW: 'get', // 获取指定数据
 };
+
+const apis = {
+  post: {
+    restful: true,
+    urls: {
+      problem: ['/api/statistics/:problemId', 'get'],
+      problem2: {
+        url: '/api/statistics/:problemId',
+        method: 'get',
+      },
+    },
+    comment: {
+      restful: true,
+    },
+    problem: {},
+  },
+};
+
+const apiMapToRouteMapAdapter = apis => {
+  const reservedKeys = ['restful', 'urls'];
+
+  const _dp = (obj, prefixPath = '') => {
+    if (prefixPath === '') {
+      return Object.keys(obj).reduce((p, k) => {
+        return { ...p, [k]: { ..._dp(obj[k], k) } };
+      }, {});
+    }
+
+    if (obj && typeof obj === 'object') {
+      const _proKeysObj = pickAll(reservedKeys, obj);
+      const mergeRestful = (mark, prefixPath) => {
+        if (mark && prefixPath) {
+          return generateRestfullRoutes(prefixPath);
+        }
+        return {};
+      };
+      const mergeCustomUrls = urlsObject => {
+        if (!urlsObject) {
+          return {};
+        }
+        return Object.entries(urlsObject).reduce((pre, [key, value]) => {
+          let route = {};
+          if (!value) {
+            console.error(
+              '错误的输入',
+              prefixPath,
+              'key为',
+              key,
+              '必须为[url,method]或{url,method}',
+            );
+            return { ...pre };
+          }
+          if (typeof value === 'object' && value instanceof Array) {
+            const [url, method] = value;
+            route = {
+              [key]: {
+                url,
+                method,
+              },
+            };
+          } else {
+            const { url, method } = value;
+            route = {
+              [key]: {
+                url,
+                method,
+              },
+            };
+          }
+
+          return {
+            ...pre,
+            ...route,
+          };
+        }, {});
+      };
+      const mergeInKeys = omit(reservedKeys, obj);
+      const dpSearchedRoutes = Object.keys(mergeInKeys).reduce((p, k) => {
+        return { ...p, [k]: { ..._dp(obj[k], prefixPath + '.' + k) } };
+      }, {});
+      return {
+        ...mergeRestful(_proKeysObj.restful, prefixPath),
+        ...mergeCustomUrls(_proKeysObj.urls),
+        ...dpSearchedRoutes,
+      };
+    }
+    return {};
+  };
+  return _dp(apis);
+};
+
+console.log(apiMapToRouteMapAdapter(apis));
 
 /**
  * 系统路由表
@@ -104,7 +197,7 @@ function mixUrl(prefix, root = false, sub = false, ignoreSub = false) {
   return sub ? `${prefix}/${root}/:${root}Id/${sub}/:${sub}Id` : `${prefix}/${root}/:id`;
 }
 
-function generateRestfullRoutes(descriptor, prefix = '/api', others = {}) {
+export function generateRestfullRoutes(descriptor, prefix = '/api', others = {}) {
   const splitted = descriptor.split('.');
   const [a, b] = splitted;
 

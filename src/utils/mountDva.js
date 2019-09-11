@@ -11,7 +11,7 @@ const mountModelToDva = (model, mutiMark = false) => async callback => {
   callback(true);
 };
 
-const isModelExisted = namespace => getStore()._models.some(m => m.namespace === namespace);
+const isModelExisted = namespace => (getStore()._models || []).some(m => m.namespace === namespace);
 
 const mountDvaModal = (model, Component) =>
   forwardRef((props, ref) => {
