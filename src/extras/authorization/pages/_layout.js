@@ -8,12 +8,13 @@ const AuthLayout = styled.div`
   justify-content: center;
   align-items: center;
   & h2.title {
-    text-align: center;
-    font-size: @font-size-base;
-    margin-bottom: @font-space-base*3;
+    text-align: left;
+    font-size: 18px;
+    margin-bottom: 12px;
+    font-weight: 400;
   }
   & .login-form {
-    width: 330px;
+    width: 280px;
   }
   & .login-form-button {
     width: 100%;

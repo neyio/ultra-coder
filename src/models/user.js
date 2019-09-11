@@ -20,6 +20,7 @@ export default {
       },
     },
     profile: {},
+    toke: null,
   },
 
   effects: {},

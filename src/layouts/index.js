@@ -45,7 +45,10 @@ export default connect(stateMap)(props => {
     <Media query="(max-width: 599px)">
       {isMobile =>
         isMobile ? (
-          <div> 移动端适配晚点再写 </div>
+          (() => {
+            console.log('移动端请在此修改Layout以补充');
+            return 1;
+          })() && <DefaultLayout {...props} isMobile={isMobile} />
         ) : (
           <DefaultLayout {...props} isMobile={isMobile} />
         )

@@ -1,0 +1,88 @@
+.homeContainer {
+  height: 100%;
+  width: 100%;
+  background: #0e284b;
+}
+.homepage {
+  height: 100%;
+  width: 100%;
+  min-width: 1024px;
+  background: url(../assets/homepage.png) no-repeat;
+  background-size: 800px 480px;
+  background-size: fixed;
+  background-position: right bottom;
+  display: flex;
+  flex-direction: row;
+  //   justify-content: center;
+  align-items: center;
+}
+
+@media screen and (max-width: 641px) {
+  .homepage {
+    height: 100%;
+    width: 100%;
+    min-width: 100%;
+    background: url(../assets/homepage.png) no-repeat;
+    background-size: 400px 240px;
+    background-size: fixed;
+    background-position: right bottom;
+  }
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  padding-left: 10%;
+  justify-content: center;
+}
+
+.welcome {
+  font-size: 2.5rem;
+  color: #fff;
+}
+.title {
+  font-size: 1.6rem;
+  color: #fff;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  line-height: 2rem;
+  height: 2rem;
+  margin-bottom: 2rem;
+}
+
+.decorator {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 3px;
+  font-size: 1.6rem;
+  margin-right: 1rem;
+  height: 2rem;
+  &::after {
+    content: '';
+    padding-bottom: 10px;
+    border-bottom: 4px solid #fff;
+  }
+}
+
+.description {
+  color: #fff;
+  line-height: 1.5rem;
+  font-size: 0.8rem;
+  font-weight: 100;
+  max-width: 400px;
+  margin-bottom: 3rem;
+}
+
+.enterButton {
+  background: #2e78c7;
+  border-color: #2e78c7;
+  color: #fff;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+}

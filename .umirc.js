@@ -4,7 +4,7 @@ const APP_NAME = 'Ultra Code Online Judge';
 export default {
   treeShaking: true,
   theme: {
-    'primary-color': '#54c421', // 全局主色 #1890ff
+    'primary-color': '#0f2849', // 全局主色 #1890ff
     'link-color': 'rgba(0, 0, 0, 0.65)', // 链接色
     'success-color': '#52c41a', // 成功色
     'warning-color': '#faad14', // 警告色
