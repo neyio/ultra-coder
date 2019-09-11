@@ -1,5 +1,6 @@
 import pathToRegexp from 'path-to-regexp';
 import Request from './request';
+import TestApis from './apis';
 import { pickAll, omit } from 'ramda';
 //使用方法见 96行
 const manualMixUrl = (prefix, url = false) => method => {
@@ -21,26 +22,8 @@ export const METHODS = {
   SHOW: 'get', // 获取指定数据
 };
 
-const apis = {
-  post: {
-    restful: true,
-    urls: {
-      problem: ['/api/statistics/:problemId', 'get'],
-      problem2: {
-        url: '/api/statistics/:problemId',
-        method: 'get',
-      },
-    },
-    comment: {
-      restful: true,
-    },
-    problem: {},
-  },
-};
-
 const apiMapToRouteMapAdapter = apis => {
   const reservedKeys = ['restful', 'urls'];
-
   const _dp = (obj, prefixPath = '') => {
     if (prefixPath === '') {
       return Object.keys(obj).reduce((p, k) => {
@@ -73,7 +56,7 @@ const apiMapToRouteMapAdapter = apis => {
             return { ...pre };
           }
           if (typeof value === 'object' && value instanceof Array) {
-            const [url, method] = value;
+            const [url = '', method = 'get'] = value;
             route = {
               [key]: {
                 url,
@@ -81,7 +64,7 @@ const apiMapToRouteMapAdapter = apis => {
               },
             };
           } else {
-            const { url, method } = value;
+            const { url = '', method = 'get' } = value;
             route = {
               [key]: {
                 url,
@@ -111,7 +94,13 @@ const apiMapToRouteMapAdapter = apis => {
   return _dp(apis);
 };
 
-console.log(apiMapToRouteMapAdapter(apis));
+console.log(
+  '请前往utils/apis.js修改路由描述表，并mixin入下方的routeMap变量中以开启使用',
+  'TestApis ===> ',
+  apiMapToRouteMapAdapter(TestApis),
+  'restful对应的名称为',
+  METHODS,
+);
 
 /**
  * 系统路由表

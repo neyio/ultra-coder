@@ -1,10 +1,21 @@
 export default {
-  post: {
+  auth: {
+    restful: false,
+    urls: {
+      signIn: ['/api/signIn', 'post'],
+      logout: ['/api/logout'],
+    },
+  },
+  schedule: {
     restful: true,
-    urls: {},
-    comment: {
+    problem: {
       restful: true,
     },
-    problem: {},
+    urls: {
+      custom: {
+        url: '/api/schedule/:scheduleId/custom',
+        method: 'get',
+      },
+    },
   },
 };
