@@ -1,0 +1,44 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.contentContainer {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 1rem;
+  max-width: 1086px;
+  overflow: auto;
+}
+.asideContainer {
+  min-width: 280px;
+  flex-shrink: 0;
+  padding: 1rem 0;
+}
+
+.contentTitle {
+  font-size: @font-size-extra-large*1.5;
+  margin-bottom: 0;
+}
+.labelContainer {
+  display: flex;
+  flex-direction: row;
+  padding: 1rem 0;
+  margin-top: 1rem;
+  height: 120px;
+  min-height: 120px;
+  overflow: auto;
+}
+
+.labelButton {
+  border-radius: 1rem;
+  padding: 5px 10px;
+  overflow: hidden;
+  margin-right: 1rem;
+  flex-basis: 150px;
+  flex-shrink: 0;
+}

@@ -1,0 +1,54 @@
+.exploreCard {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.bgContainer {
+  width: 100%;
+  height: 280px;
+  padding: @font-size-base;
+}
+.labelContainer {
+  border-radius: 3%;
+  width: 250px;
+  overflow: hidden;
+  :global {
+    .ant-card-body {
+      padding: 0;
+    }
+  }
+}
+.description {
+  font-size: @font-size-base;
+}
+.label {
+  font-size: @font-size-extra-large;
+}
+.figure {
+  display: flex;
+  margin: 0;
+  ul.figureContent {
+    padding: @font-size-base*0.5 @font-size-base*1.5;
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    & > li.figureItem {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      & > span.count {
+        font-size: @font-size-extra-large;
+        font-weight: bold;
+      }
+      & > span.part {
+        font-size: @font-size-base;
+        font-weight: 300;
+      }
+    }
+  }
+}

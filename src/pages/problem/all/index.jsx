@@ -50,7 +50,7 @@ const ADCard = (
 				/>
 			}
 			bodyStyle={{
-				padding: '0px'
+				padding: 0
 			}}
 			action={null}
 		/>
