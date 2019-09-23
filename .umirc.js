@@ -1,8 +1,12 @@
 // ref: https://umijs.org/config/
 // 配置见 https://umijs.org/zh/plugin/umi-plugin-react.html#%E4%BD%BF%E7%94%A8
-const APP_NAME = 'Ultra Code Online Judge';
+const APP_NAME = 'Doodle Code Online Judge';
 export default {
   treeShaking: true,
+  block: {
+    defaultGitUrl: 'https://github.com/ant-design/pro-blocks',
+    npmClient: 'cnpm', // 优先级低于 umi block add [block] --npm-client
+  },
   theme: {
     'primary-color': '#0f2849', // 全局主色 #1890ff
     'link-color': 'rgba(0, 0, 0, 0.65)', // 链接色
@@ -53,20 +57,7 @@ export default {
           ],
         },
         metas: [{ charset: 'utf-8' }],
-        // links: [{ rel: 'stylesheet', href: '/markdown.css' }],
-        // scripts: [{ src: '/iconfont.js' }],
-        // ssr: {
-        //   // https://github.com/liady/webpack-node-externals#optionswhitelist-
-        //   externalWhitelist: [],
-        //   // 客户端资源 manifest 文件名，默认是 ssr-client-mainifest.json
-        //   manifestFileName: 'ssr-client-mainifest.json',
-        // },
-        // default close dll, because issue https://github.com/ant-design/ant-design-pro/issues/4665
-        // dll features https://webpack.js.org/plugins/dll-plugin/
-        // dll: {
-        //   include: ['dva', 'dva/router', 'dva/saga', 'dva/fetch'],
-        //   exclude: ['@babel/runtime', 'netlify-lambda'],
-        // },
+
       },
     ],
     [
@@ -86,5 +77,19 @@ export default {
  *     urlTemplate: 'https://unpkg.com/{{ library }}@{{ version }}/{{ path }}',
  *     checkOnline: false,
  *   }],
+ *   links: [{ rel: 'stylesheet', href: '/markdown.css' }], *
+ *   scripts: [{ src: '/iconfont.js' }], *
+ *   ssr: { *
+ *     // https://github.com/liady/webpack-node-externals#optionswhitelist- *
+ *     externalWhitelist: [], *
+ *     // 客户端资源 manifest 文件名，默认是 ssr-client-mainifest.json *
+ *     manifestFileName: 'ssr-client-mainifest.json', *
+ *   }, *
+ *   default close dll, because issue https://github.com/ant-design/ant-design-pro/issues/4665 *
+ *   dll features https://webpack.js.org/plugins/dll-plugin/ *
+ *   dll: { *
+ *     include: ['dva', 'dva/router', 'dva/saga', 'dva/fetch'], *
+ *     exclude: ['@babel/runtime', 'netlify-lambda'], *
+ *   },
  * ],
  **/
