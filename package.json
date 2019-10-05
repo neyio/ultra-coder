@@ -39,7 +39,8 @@
     "redux": "^4.0.4",
     "redux-persist": "^5.10.0",
     "styled-components": "^4.3.2",
-    "umi-request": "^1.2.2"
+    "umi-request": "^1.2.2",
+    "uuid": "^3.3.3"
   },
   "devDependencies": {
     "babel-eslint": "^9.0.0",

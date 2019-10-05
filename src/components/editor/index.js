@@ -1,10 +1,10 @@
-import React from './node_modules/react';
-import uuid from './node_modules/uuid/v4';
-import BraftEditor from './node_modules/braft-editor'; // 引入编辑器组件
-import Markdown from './node_modules/braft-extensions/dist/markdown';
-import './node_modules/braft-editor/dist/index.css'; // 引入编辑器样式
-import './node_modules/braft-editor/dist/output.css';
-import './node_modules/braft-extensions/dist/code-highlighter.css';
+import React from 'react';
+import uuid from 'uuid/v4';
+import BraftEditor from 'braft-editor'; // 引入编辑器组件
+import Markdown from 'braft-extensions/dist/markdown';
+import 'braft-editor/dist/index.css'; // 引入编辑器样式
+import 'braft-editor/dist/output.css';
+import 'braft-extensions/dist/code-highlighter.css';
 BraftEditor.use(Markdown({}));
 // 定义rem基准值
 const sizeBase = 14;
@@ -51,7 +51,7 @@ const controls = [
   'superscript',
   'subscript',
   'remove-styles',
-  'emoji',
+  // 'emoji',
   'separator',
   'text-indent',
   'text-align',
@@ -72,11 +72,11 @@ const controls = [
 
 export default class UltraEditor extends React.Component {
   state = {
-    // 创建一个空的editorState作为初始值
-    editorState: BraftEditor.createEditorState(
-      typeof this.props.defaultContent === 'function'
-        ? this.props.defaultContent()
-        : this.props.defaultContent || null,
+    // 创建一个空的value作为初始值
+    value: BraftEditor.createEditorState(
+      typeof this.props.initialValue === 'function'
+        ? this.props.initialValue()
+        : this.props.initialValue || null,
     ),
   };
 
@@ -86,10 +86,10 @@ export default class UltraEditor extends React.Component {
     // 使用BraftEditor.createEditorState将html字符串转换为编辑器需要的editorStat
     try {
       this.setState({
-        editorState: BraftEditor.createEditorState(
-          typeof this.props.defaultContent === 'function'
-            ? this.props.defaultContent()
-            : this.props.defaultContent || null,
+        value: BraftEditor.createEditorState(
+          typeof this.props.initialValue === 'function'
+            ? this.props.initialValue()
+            : this.props.initialValue || null,
         ),
       });
     } catch (e) {
@@ -100,13 +100,14 @@ export default class UltraEditor extends React.Component {
 
   onSubmit = async () => {
     // 在编辑器获得焦点时按下ctrl+s会执行此方法
-    // 编辑器内容提交到服务端之前，可直接调用editorState.toHTML()来获取HTML格式的内容
-    const htmlContent = this.state.editorState.toHTML();
-    this.props.onSave && this.props.onSave(htmlContent);
+    // 编辑器内容提交到服务端之前，可直接调用value.toHTML()来获取HTML格式的内容
+    const htmlContent = this.state.value.toHTML();
+    console.log('onChange');
+    this.props.onChange && this.props.onChange(htmlContent);
   };
 
-  onChange = editorState => {
-    this.setState({ editorState });
+  onChange = value => {
+    this.setState({ value });
   };
 
   uploadFn = async param => {
@@ -177,7 +178,7 @@ export default class UltraEditor extends React.Component {
   };
 
   render() {
-    const { editorState } = this.state;
+    const { value } = this.state;
     const extendControls = [
       {
         key: 'saveAndExit',
@@ -188,7 +189,8 @@ export default class UltraEditor extends React.Component {
     ];
     return (
       <BraftEditor
-        value={editorState}
+        style={this.props.style || {}}
+        value={value}
         onChange={this.onChange}
         onSave={this.onSubmit}
         controls={controls}

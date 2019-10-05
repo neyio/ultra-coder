@@ -1,0 +1,28 @@
+.container {
+  width: 1280px;
+  margin: 0 auto;
+  & > h2.title {
+    font-size: @font-size-extra-large*1.5;
+    font-weight: 300;
+    text-align: center;
+    margin-top: @space-base*4;
+    margin-bottom: @space-base;
+  }
+  h5.subTitle {
+    font-size: @font-size-base;
+    font-weight: 100;
+    margin-top: 0;
+    text-align: center;
+    letter-spacing: 0.2rem;
+  }
+}
+
+.card {
+  width: 100%;
+  transition: all 0.4s;
+  box-shadow: @box-shadow-base;
+  margin-top: @space-base*4;
+  &:hover {
+    transform: translateY(-0.5rem);
+  }
+}

@@ -12,7 +12,14 @@ const proxy = {
       description: '题目内容',
     },
   },
+  'POST /api/problem/create': {
+    $desc: '创建题目',
+    $params: {
+      title: "题目名称",
+      
+    }
+  }
 };
 
 // 调用 delay 函数，统一处理
-export default delay(proxy, 3000);
+export default delay(proxy, 300);

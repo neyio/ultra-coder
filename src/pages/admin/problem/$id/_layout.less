@@ -1,0 +1,34 @@
+.flex-row {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+}
+.flex-column {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.mainContainer {
+  .flex-column();
+  overflow: scroll;
+}
+.contentContainer {
+  overflow: scroll;
+}
+.contentContainer {
+  .flex-row();
+  .problemContainer,
+  .codeContainer {
+    .flex-column();
+  }
+  .problemContainer {
+    justify-content: space-between;
+    min-width: 600px;
+  }
+}
+.subrouterContainer {
+  flex: 1;
+  overflow: scroll;
+  display: block;
+}
