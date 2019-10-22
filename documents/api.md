@@ -1,4 +1,17 @@
-// 见下方示例
+## 定义路由表
+
+{
+  [key:string]:{
+    restful?: boolean;
+    urls?:{
+      [key:string]:RouteMapInterface | [string,methodstring]|{url:string,method:string}
+    }
+  }
+}
+
+### 示例如下:
+
+```javascript
 export default {
   auth: {
     restful: false,
@@ -20,3 +33,5 @@ export default {
     },
   },
 };
+
+```
