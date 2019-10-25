@@ -1,7 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
+// import marked from 'marked';
+import NeoEditor from '../../components/NeoEditor';
+import 'highlight.js/styles/github.css';
 
-export default class Writer extends Component {
-  render() {
-    return <div>writer</div>;
-  }
-}
+const Writer = props => {
+  return <NeoEditor />;
+};
+
+export default Writer;

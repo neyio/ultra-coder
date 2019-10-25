@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
+<% if (context.title != null) { %>
+  <title><%= context.title %></title>
+<% } %>
+</head>
+<body>
+
+<div id="<%= context.config.mountElementId %>"></div>
+<script src="https://cdn.bootcss.com/marked/0.7.0/marked.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+<script id="markedWorker" type="javascript/worker">
+  importScripts('https://cdn.bootcss.com/marked/0.7.0/marked.min.js','https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js');
+  marked.setOptions({
+    renderer: new marked.Renderer(),
+    highlight: function(code) {
+      return hljs.highlightAuto(code).value;
+    },
+    pedantic: false,
+    gfm: true,
+    breaks: false,
+    sanitize: false,
+    smartLists: true,
+    smartypants: false,
+    xhtml: false,
+  });
+  onmessage = e => {
+    const markdownString = e.data;
+    postMessage(marked(markdownString));
+  };
+</script>
+</body>
+</html>
