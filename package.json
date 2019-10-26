@@ -6,7 +6,7 @@
     "build": "umi build",
     "test": "umi test",
     "lint": "eslint --ext .js src mock tests",
-    "precommit": "lint-staged"
+    "precommit": "echo 'precomiit'"
   },
   "dependencies": {
     "@antv/data-set": "^0.10.2",
