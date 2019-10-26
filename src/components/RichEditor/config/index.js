@@ -1,5 +1,6 @@
 import htmlTags from 'html-tags';
 import voidHtmlTags from 'html-tags/void';
+import { CLASS_LIST } from '../constants';
 export const MUYA_DEFAULT_OPTION = {
   focusMode: false,
   markdown: '',
@@ -32,14 +33,10 @@ export const MUYA_DEFAULT_OPTION = {
 };
 
 // TYPE1 ~ TYPE7 according to https://github.github.com/gfm/#html-blocks
+
 export const BLOCK_TYPE1 = ['script', 'pre', 'style'];
 
 export const BLOCK_TYPE2_REG = /^<!--(?=\s).*\s+-->$/;
-
-export const BLOCK_TYPE7 = htmlTags.filter(tag => {
-  return !BLOCK_TYPE1.find(t => t === tag) && !BLOCK_TYPE6.find(t => t === tag);
-});
-
 export const BLOCK_TYPE6 = [
   'address',
   'article',
@@ -105,6 +102,37 @@ export const BLOCK_TYPE6 = [
   'track',
   'ul',
 ];
+export const BLOCK_TYPE7 = htmlTags.filter(tag => {
+  return !BLOCK_TYPE1.find(t => t === tag) && !BLOCK_TYPE6.find(t => t === tag);
+});
 
 export const VOID_HTML_TAGS = voidHtmlTags;
 export const HTML_TAGS = htmlTags;
+
+//回车符号
+export const LINE_BREAK = '\n';
+//文本检测正则（带有span的都带有文本内容）
+export const HAS_TEXT_BLOCK_REG = /^span$/i;
+//默认的turndown的配置
+export const DEFAULT_TURNDOWN_CONFIG = {
+  headingStyle: 'atx', // setext or atx
+  hr: '---',
+  bulletListMarker: '-', // -, +, or *
+  codeBlockStyle: 'fenced', // fenced or indented
+  fence: '```', // ``` or ~~~
+  emDelimiter: '*', // _ or *
+  strongDelimiter: '**', // ** or __
+  linkStyle: 'inlined',
+  linkReferenceStyle: 'full',
+  blankReplacement(content, node, options) {
+    if (node && node.classList.contains(CLASS_LIST.SOFT_LINE_BREAK)) {
+      return LINE_BREAK;
+    } else if (node && node.classList.contains(CLASS_LIST.HARD_LINE_BREAK)) {
+      return '  ' + LINE_BREAK;
+    } else if (node && node.classList.contains(CLASS_LIST.HARD_LINE_BREAK_SPACE)) {
+      return '';
+    } else {
+      return node.isBlock ? '\n\n' : '';
+    }
+  },
+};
