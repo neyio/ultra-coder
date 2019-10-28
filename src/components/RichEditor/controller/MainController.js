@@ -1,10 +1,7 @@
 import { MUYA_DEFAULT_OPTION } from '../config';
 import EventService from '../services/EventService';
 import ExportMarkdown from '../utils/exportMarkdown';
-function ContentState(obj, option) {
-  this.obj = obj;
-  this.option = option;
-}
+import ContentState from '../services/contentState';
 
 export default class MainController {
   static plugins = [];
@@ -26,6 +23,7 @@ export default class MainController {
     this.eventService = new EventService();
     // 内容状态管理
     this.contentState = new ContentState(this, this.options);
+
     this.initInUsingPlugins(MainController.plugins); //初始化UI组件
     //   this.tooltip = new ToolTip(this);
     //   this.clipboard = new Clipboard(this);

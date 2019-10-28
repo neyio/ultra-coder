@@ -1,17 +1,14 @@
-import { DEFAULT_TURNDOWN_CONFIG } from "../../config";
-
+import { HAS_TEXT_BLOCK_REG, DEFAULT_TURNDOWN_CONFIG } from '../../config';
+import { getUniqueId, deepCopy } from '../utils';
+import StateRender from './render';
 export default class ContentState {
   controller = null;
-  constructor(controller, options) {
-    const { bulletListMarker } = options;
-
+  constructor(controller, { bulletListMarker }) {
     this.controller = controller;
-    Object.assign(this, options);
-
+    //TODO: Object.assign(this, options);本行代码就是把编辑器默认配置扔进this，此处已被neyio注释，坐等出错
     // Use to cache the keys which you don't want to remove.
     this.exemption = new Set();
-      this.blocks = [this.createBlockP()];
-      
+    this.blocks = [this.createBlockP()];
     this.stateRender = new StateRender(controller);
     this.renderRange = [null, null];
     this.currentCursor = null;
@@ -647,6 +644,7 @@ export default class ContentState {
     const nextBlock = this.getNextSibling(block);
 
     if (nextBlock && nextBlock.editable !== false) {
+      //子代
       return this.firstInDescendant(nextBlock);
     } else if (parent) {
       return this.findNextBlockInLocation(parent);
