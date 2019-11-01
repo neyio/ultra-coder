@@ -15,7 +15,7 @@ const persistConfig = {
 const persistEnhancer = () => createStore => (reducer, initialState, enhancer) => {
   const store = createStore(persistReducer(persistConfig, reducer), initialState, enhancer);
   const persist = persistStore(store, null, (...hooks) => {
-    console.log(store, 'Hook to do sth when store is inited.');
+    console.log('get store', 'Hook to do sth when store is inited.');
   });
   return {
     persist,

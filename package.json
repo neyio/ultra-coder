@@ -23,6 +23,7 @@
     "dva-logger": "^1.0.0",
     "for-editor": "^0.3.2",
     "highlight.js": "^9.15.10",
+    "lodash": "^4.17.15",
     "lodash-decorators": "^6.0.1",
     "lodash.debounce": "^4.0.8",
     "marked": "^0.7.0",
