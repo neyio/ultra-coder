@@ -1,5 +1,6 @@
-import request from '../utils/routes';
+import { NAMESPACE as REQUEST_NAMESPACE } from './request';
 import { pick } from '../utils/helpers';
+
 const NAME_SPACE = 'problem';
 export default {
   namespace: NAME_SPACE,
@@ -10,22 +11,26 @@ export default {
     statistics: {},
   },
   effects: {
-    *loadProblemStatistics({ payload }, { put, call }) {
+    *loadProblemStatistics({ payload }, { put, call, select }) {
+      const request = yield select(state => state[REQUEST_NAMESPACE].restfulApiRequest);
       // res =>{ tags:[],total }
       const response = yield call(request, 'statistics.problem');
-      const pickedData = pick(response, ['total', 'tags']);
-      yield put({
-        type: 'setProblemStatistics',
-        payload: pickedData,
-      });
+      try {
+        console.log('TCL: *loadProblemStatistics -> response', response);
+        const pickedData = pick(response, ['total', 'tags']);
+        yield put({
+          type: 'setProblemStatistics',
+          payload: pickedData,
+        });
+      } catch (e) {
+        throw e;
+      }
     },
-    *loadProblemById(
-      {
-        payload: { id, callback },
-      },
-      { put, call, select },
-    ) {
-      const items = yield select(state => state[NAME_SPACE]['items']);
+    *loadProblemById({ payload: { id, callback } }, { put, call, select }) {
+      const { items, request } = yield select(state => ({
+        items: state[NAME_SPACE]['items'],
+        request: state[REQUEST_NAMESPACE].request,
+      }));
       if (items[id]) {
         return callback(items[id]);
       }
@@ -44,12 +49,7 @@ export default {
         ...payload,
       };
     },
-    setProblem(
-      state,
-      {
-        payload: { id, response },
-      },
-    ) {
+    setProblem(state, { payload: { id, response } }) {
       state.items[id] = response; //dva-immer
     },
   },

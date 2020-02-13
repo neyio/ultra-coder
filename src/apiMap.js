@@ -1,10 +1,20 @@
-// 见下方示例
 export default {
   auth: {
     restful: false,
     urls: {
       signIn: ['/api/signIn', 'post'],
       logout: ['/api/logout'],
+    },
+  },
+  statistics: {
+    urls: {
+      problem: ['/api/statistics/problem', 'get'],
+    },
+  },
+  post: {
+    restful: true,
+    comment: {
+      restful: true,
     },
   },
   schedule: {

@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import request from '@/utils/routes';
+
 import assert from 'assert';
+import { connect } from 'dva';
+import { NAMESPACE } from '../../models/request';
 
 const pickNotInKeys = (obj, keys) =>
   Object.keys(obj).reduce((pre, i) => {
@@ -14,6 +16,7 @@ const DynamicAction = WrappedComponent => {
     callback = r => {
       console.log(r);
     },
+    request,
     ...props
   }) => {
     const preProps = { eventtype, action, callback, ...props };
@@ -52,7 +55,12 @@ const DynamicAction = WrappedComponent => {
       <WrappedComponent {...pickNotInKeys(newProps, ['callback', 'action'])} disabled={loading} />
     );
   };
-  return Component;
+  return connect(
+    state => ({
+      request: state[NAMESPACE].restfulApiRequest,
+    }),
+    () => ({}),
+  )(Component);
 };
 
 export default DynamicAction;
