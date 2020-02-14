@@ -189,6 +189,9 @@ const createRequest = (
     extra = {};
 
   const safeGet = (obj, keyChain) => {
+    if (!keyChain) {
+      throw new Error(`keyChain is falsy`);
+    }
     const keys = keyChain.split('.');
     return keys.reduce((pre, i) => {
       if (pre && typeof pre === 'object') {

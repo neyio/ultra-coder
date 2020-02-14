@@ -11,15 +11,15 @@ const pickNotInKeys = (obj, keys) =>
 
 const DynamicAction = WrappedComponent => {
   const Component = ({
-    eventtype = 'onClick',
-    action,
+    eventType = 'onClick',
+    action = {},
     callback = r => {
       console.log(r);
     },
-    request,
+    restfulApiRequest,
     ...props
   }) => {
-    const preProps = { eventtype, action, callback, ...props };
+    const preProps = { eventType, action, callback, ...props };
     const [loading, setLoading] = useState(false);
     const [observer, setObserver] = useState({});
     const reducer = async arg => {
@@ -30,19 +30,19 @@ const DynamicAction = WrappedComponent => {
         setObserver(await arg());
       }
     };
-    const originEventHandler = props[eventtype] || (() => {});
+    const originEventHandler = props[eventType] || (() => {});
     const eventHandler = async () => {
       setLoading(true);
       await originEventHandler();
       try {
         if (action && typeof action === 'object') {
-          const { keyChain, params = {}, body = {}, extra = {} } = action;
-          assert(action.keyChain, 'action.keyChain 必须输入，详见 @/utils/routes');
-          await request(keyChain, params, body, extra); // 发起请求
+          const { api, params = {}, body = {}, extra = {} } = action;
+          assert(api, 'action.api 必须输入，详见 @/apiMap');
+          await restfulApiRequest(api, params, body, extra); // 发起请求
           callback(reducer, newProps);
         } else {
           throw new Error(
-            'props.action is not an object with attributes [keyChain,body={any queryBody},params={id:x},extra={any}] ',
+            'props.action is not an object with attributes [api,body={any queryBody},params={id:x},extra={any}] ',
           );
         }
       } catch (e) {
@@ -50,14 +50,17 @@ const DynamicAction = WrappedComponent => {
       }
       setLoading(false);
     };
-    const newProps = { ...preProps, ...observer, [eventtype]: eventHandler };
+    const newProps = { ...preProps, ...observer, [eventType]: eventHandler };
     return (
-      <WrappedComponent {...pickNotInKeys(newProps, ['callback', 'action'])} disabled={loading} />
+      <WrappedComponent
+        {...pickNotInKeys(newProps, ['callback', 'action', 'eventType'])}
+        disabled={loading}
+      />
     );
   };
   return connect(
     state => ({
-      request: state[NAMESPACE].restfulApiRequest,
+      restfulApiRequest: state[NAMESPACE].restfulApiRequest,
     }),
     () => ({}),
   )(Component);

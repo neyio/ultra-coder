@@ -26,7 +26,7 @@ export default connect(state => {
     },
     request,
   }) => {
-    const { keyChain = null, params = {}, extra = {} } = action;
+    const { api = null, params = {}, extra = {} } = action;
 
     const [data, setData] = useState(items);
     const [loading, setLoading] = useState(true);
@@ -36,10 +36,10 @@ export default connect(state => {
 
     const momCallback = useCallback(async () => {
       console.log(`page:${page},size:${size}`);
-      if (keyChain) {
+      if (api) {
         try {
           setLoading(true);
-          const response = await request(keyChain, params, {
+          const response = await request(api, params, {
             ...extra,
             page,
             size,
@@ -60,7 +60,7 @@ export default connect(state => {
           console.error(e);
         }
       }
-    }, [params, extra, keyChain, page, size, request]);
+    }, [params, extra, api, page, size, request]);
 
     useEffect(() => {
       momCallback();

@@ -10,6 +10,7 @@ export const ACTIONS = {
   WATCH_USER_AUTH_ACTIONS: 'watchUserAuthActions',
   INIT_SUBSCRIPTION: 'initSubscription',
   RESET_REQUEST_CREATOR: 'resetRequestCreator',
+  FETCH_RESTFUL_API: 'fetchRestfulApi',
 };
 
 export const request = axios.create();
@@ -115,7 +116,16 @@ export default (({ initialApis = [], effects = {}, reducers = {}, subscriptions 
         }
       }
     },
-
+    *[ACTIONS.FETCH_RESTFUL_API]({ payload }, { select, call }) {
+      const restfulApiRequest = yield select(state => state[NAMESPACE].restfulApiRequest);
+      const { callback, ...body } = payload;
+      try {
+        const data = yield call(restfulApiRequest, ...body);
+        callback(data);
+      } catch (e) {
+        throw e;
+      }
+    },
     *send({ payload }, { call }) {
       const {
         callback = res => {

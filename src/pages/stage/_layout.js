@@ -30,12 +30,16 @@ const StageMenu = () => {
       >
         <Menu.ItemGroup key="g1" title="列表和表格">
           <Menu.Item key="1">
-            <Link to="/stage/dynamic/list">Dynamic List</Link>
+            <Link to="/stage/dynamic/list">自动列表</Link>
           </Menu.Item>
-          <Menu.Item key="2">Dynamic Table</Menu.Item>
+          <Menu.Item key="2">
+            <Link to="/stage/dynamic/actor">自动触发器</Link>
+          </Menu.Item>
         </Menu.ItemGroup>
-        <Menu.ItemGroup key="g2" title="Item 2">
-          <Menu.Item key="3">Option 3</Menu.Item>
+        <Menu.ItemGroup key="g2" title="Hooks">
+          <Menu.Item key="3">
+            <Link to="/stage/hooks/usePaginate">usePaginate </Link>
+          </Menu.Item>
           <Menu.Item key="4">Option 4</Menu.Item>
         </Menu.ItemGroup>
       </SubMenu>

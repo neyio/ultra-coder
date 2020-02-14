@@ -29,4 +29,13 @@ export default {
       },
     },
   },
+  example: {
+    restful: false,
+    urls: {
+      city: {
+        url: '/api/example/:exampleId/city',
+        method: 'get',
+      },
+    },
+  },
 };
