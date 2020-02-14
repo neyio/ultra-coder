@@ -5,6 +5,7 @@ import { connect } from 'dva';
 import Link from 'umi/link';
 import Header from '../../components/layout/Header';
 import { Divider } from '../../components/layout/Divider';
+import './_layout.less';
 const { Content, Sider } = Layout;
 
 const { SubMenu } = Menu;
