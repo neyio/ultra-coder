@@ -3,8 +3,6 @@ import { Comment, Tooltip, Icon, Button } from 'antd';
 import moment from 'moment';
 import DynamicList from '@/components/Dynamic/List';
 import ActionWrapper from '@/components/Dynamic/Action';
-import { ACTIONS, NAMESPACE } from '../../../../models/request';
-
 const IconAction = ActionWrapper(Icon);
 const ButtonAction = ActionWrapper(Button);
 

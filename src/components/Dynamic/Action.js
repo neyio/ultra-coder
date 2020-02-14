@@ -12,14 +12,16 @@ const pickNotInKeys = (obj, keys) =>
 const DynamicAction = WrappedComponent => {
   const Component = ({
     eventType = 'onClick',
+    dispatch,
     action = {},
+    reduxEvent = null,
     callback = r => {
       console.log(r);
     },
     restfulApiRequest,
     ...props
   }) => {
-    const preProps = { eventType, action, callback, ...props };
+    const preProps = { eventType, reduxEvent, action, callback, ...props };
     const [loading, setLoading] = useState(false);
     const [observer, setObserver] = useState({});
     const reducer = async arg => {
@@ -35,15 +37,30 @@ const DynamicAction = WrappedComponent => {
       setLoading(true);
       await originEventHandler();
       try {
-        if (action && typeof action === 'object') {
-          const { api, params = {}, body = {}, extra = {} } = action;
-          assert(api, 'action.api 必须输入，详见 @/apiMap');
-          await restfulApiRequest(api, params, body, extra); // 发起请求
-          callback(reducer, newProps);
+        if (reduxEvent) {
+          assert(reduxEvent && reduxEvent.type, 'reduxEvent必须包含 type');
+          const type = reduxEvent.type;
+          const payload = reduxEvent.payload;
+          await dispatch({
+            type,
+            payload: {
+              ...payload,
+              callback: () => {
+                callback(reducer, newProps);
+              },
+            },
+          });
         } else {
-          throw new Error(
-            'props.action is not an object with attributes [api,body={any queryBody},params={id:x},extra={any}] ',
-          );
+          if (action && typeof action === 'object') {
+            const { api, params = {}, body = {}, extra = {} } = action;
+            assert(api, 'action.api 必须输入，详见 @/apiMap');
+            await restfulApiRequest(api, params, body, extra); // 发起请求
+            callback(reducer, newProps);
+          } else {
+            throw new Error(
+              'props.action is not an object with attributes [api,body={any queryBody},params={id:x},extra={any}] ',
+            );
+          }
         }
       } catch (e) {
         console.error(e);
@@ -53,7 +70,8 @@ const DynamicAction = WrappedComponent => {
     const newProps = { ...preProps, ...observer, [eventType]: eventHandler };
     return (
       <WrappedComponent
-        {...pickNotInKeys(newProps, ['callback', 'action', 'eventType'])}
+        loading={loading ? loading : undefined}
+        {...pickNotInKeys(newProps, ['callback', 'action', 'eventType', 'dispatch', 'reduxEvent'])}
         disabled={loading}
       />
     );
@@ -62,7 +80,9 @@ const DynamicAction = WrappedComponent => {
     state => ({
       restfulApiRequest: state[NAMESPACE].restfulApiRequest,
     }),
-    () => ({}),
+    dispatch => {
+      return { dispatch };
+    },
   )(Component);
 };
 

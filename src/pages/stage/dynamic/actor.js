@@ -39,7 +39,37 @@ export default function DynamicButton() {
           onClick={() => {
             console.log('Step1: EventAction');
           }}
+          action={{
+            api: 'post.comment.get',
+            params: { postId: 1, commentId: 1 },
+          }}
+          callback={(set, props) => {
+            set({ type: 'heart' });
+          }}
         />
+      </div>
+      <div>
+        <ButtonAction
+          eventType="onClick"
+          type="primary"
+          style={{ fontSize: '12px' }}
+          icon="like"
+          onClick={() => {
+            console.log('Step1: EventAction');
+          }}
+          callback={(set, currentWrappedProps) => {
+            set({ icon: currentWrappedProps.icon === 'like' ? 'dislike' : 'like' });
+            console.log('Step2: callback', currentWrappedProps);
+          }}
+          reduxEvent={{
+            type: 'example/fetchCity',
+            payload: {
+              testKeys: '123',
+            },
+          }}
+        >
+          {title}
+        </ButtonAction>
       </div>
     </div>
   );
