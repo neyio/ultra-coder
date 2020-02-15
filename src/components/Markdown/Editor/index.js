@@ -83,12 +83,12 @@ function Editor({
   },
   maxRows,
 }) {
-  const domRef = useRef(null);
+  const domRef = useRef({});
   const [content, setContent] = useState(defaultValue ? defaultValue : '');
   const [preview, setPreview] = useState(false);
   const insertDom = type => {
     if (codeMap[type]) {
-      setContent(insertText(domRef.current.textAreaRef, codeMap[type]));
+      setContent(insertText(domRef.current, codeMap[type]));
     }
   };
   return (
@@ -189,7 +189,7 @@ function Editor({
         />
       )}
 
-      <Input.TextArea
+      <textarea
         ref={domRef}
         placeholder="请输入内容..."
         value={content}
@@ -198,6 +198,9 @@ function Editor({
           border: 'none',
           outline: 'none',
           boxShadow: 'none',
+          width: '100%',
+          height: '100%',
+          minHeight: '4rem',
           display: preview ? 'none' : 'block',
           ...contentStyle,
         }}
