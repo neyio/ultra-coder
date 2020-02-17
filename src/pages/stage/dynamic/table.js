@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import assert from 'assert';
-import { Pagination, Table, Row, Col, Icon, Button, Input } from 'antd';
+
+import { Pagination, Table, Row, Col, Button } from 'antd';
 import { connect } from 'dva';
 import usePaginate from '@/components/Hooks/usePaginate';
+import { mixinFilter, mixinSelection } from '@/components/Dynamic/Table';
 
-// import Highlighter from 'react-highlight-words';
 const allowZeroAndFalse = cb => (data = {}) => {
   return cb(
     typeof data === 'object' &&
@@ -16,76 +16,6 @@ const allowZeroAndFalse = cb => (data = {}) => {
       }, {}),
   );
 };
-const mixinFilter = (config = {}) => (
-  filters,
-  setFilters,
-  callback = filterData => {
-    console.log(filterData);
-  },
-) => {
-  const { dataIndex } = config;
-  assert(dataIndex, 'dataIndex must be set here.');
-  return filters
-    ? {
-        ...config,
-        onFilterDropdownVisibleChange: visible => {},
-        filterIcon: () => (
-          <Icon type="search" style={{ color: filters[dataIndex] ? '#1890ff' : undefined }} />
-        ),
-        filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
-          <div style={{ padding: 8 }}>
-            <Input
-              placeholder={'输入过滤值'}
-              value={selectedKeys[dataIndex]}
-              onChange={e => {
-                const nextFilters = {
-                  ...filters,
-                  [dataIndex]: e.target.value,
-                };
-
-                if (e.target.value === '') {
-                  delete nextFilters[dataIndex];
-                }
-                setSelectedKeys({ ...selectedKeys, [dataIndex]: e.target.value });
-                setFilters({ ...filters, [dataIndex]: e.target.value });
-                console.log('TCL: nextFilters', nextFilters);
-              }}
-              onPressEnter={() => {
-                callback(filters);
-                confirm();
-              }}
-              style={{ width: 188, marginBottom: 8, display: 'block' }}
-            />
-            <Button
-              type="primary"
-              onClick={() => {
-                callback(filters);
-                confirm();
-              }}
-              icon="search"
-              size="small"
-              style={{ width: 90, marginRight: 8 }}
-            >
-              查找
-            </Button>
-            <Button
-              onClick={() => {
-                const nextFilters = { ...filters, [dataIndex]: null };
-                setFilters(nextFilters);
-                setSelectedKeys(nextFilters);
-                callback(nextFilters);
-                confirm();
-              }}
-              size="small"
-              style={{ width: 90 }}
-            >
-              重置
-            </Button>
-          </div>
-        ),
-      }
-    : config;
-};
 
 const useTableExample = ({ request }) => {
   const config = {
@@ -96,19 +26,21 @@ const useTableExample = ({ request }) => {
     size: 10,
   };
   const [filters, setFilters] = useState({});
+  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [{ data, page, total, loading }, { setPage, setSize, setSearch }] = usePaginate({
     request,
     ...config,
   });
 
   return (
-    <figure>
+    <figure style={{ background: '#fff' }}>
       <Table
-        rowSelection={{ width: 80, fixed: true, type: 'checkbox' }}
+        {...mixinSelection(selectedRowKeys, setSelectedRowKeys, {})}
         bordered
         dataSource={data || []}
         size="small"
         rowKey="title"
+        scrollToFirstRowOnChange={true}
         columns={[
           mixinFilter({
             title: 'title',
@@ -126,11 +58,19 @@ const useTableExample = ({ request }) => {
         loading={loading}
         footer={() => {
           return (
-            <Row align="top">
+            <Row align="center">
               <Col span={3} style={{ width: 80 }}>
                 操作:
               </Col>
-              <Col span={21}>col-8</Col>
+              <Col span={21}>
+                <Button
+                  onClick={() => {
+                    console.log(selectedRowKeys);
+                  }}
+                >
+                  获取点击的行
+                </Button>
+              </Col>
             </Row>
           );
         }}
