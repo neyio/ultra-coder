@@ -40,7 +40,7 @@ const usePaginateExample = ({ request }) => {
         onChange={(current, size) => {
           setPage(current);
         }}
-        defaultCurrent={page}
+        defaultCurrent={1 || page}
         total={total}
         disabled={loading}
       />

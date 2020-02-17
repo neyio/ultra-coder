@@ -1,7 +1,7 @@
 import React, { createContext } from 'react';
 import router from 'umi/router';
 import { ContainerQuery } from 'react-container-query';
-import { Menu, Icon, ConfigProvider } from 'antd';
+import { Menu, Icon, ConfigProvider, PageHeader, Button, Descriptions } from 'antd';
 import classNames from 'classnames';
 import Header from '../../components/layout/Header';
 import query from '../../layouts/config/mediaQuery';
@@ -9,7 +9,15 @@ import Debounce from 'lodash-decorators/debounce';
 import zhCN from 'antd/es/locale-provider/zh_CN';
 const SubMenu = Menu.SubMenu;
 const Context = createContext({});
-
+const routes = [
+  {
+    path: 'dashboard',
+    breadcrumbName: '工作台',
+  },
+  {
+    breadcrumbName: '我的教案',
+  },
+];
 class Dashboard extends React.Component {
   state = {
     collapsed: false,
@@ -52,7 +60,7 @@ class Dashboard extends React.Component {
         <ContainerQuery query={query}>
           {params => (
             <Context.Provider value={this.getContext()}>
-              <>
+              <React.Fragment>
                 <Header />
                 <div id="ultra-dashboard" className={classNames(params)}>
                   <main style={{ overflow: 'hidden' }}>
@@ -96,19 +104,45 @@ class Dashboard extends React.Component {
                         </SubMenu>
                       </Menu>
                     </aside>
+                    <section>
+                      <PageHeader
+                        ghost={false}
+                        title="欢迎您"
+                        subTitle="控制台数据"
+                        breadcrumb={{ routes }}
+                        extra={[
+                          <Button key="3">Operation</Button>,
+                          <Button key="2">Operation</Button>,
+                          <Button key="1" type="primary">
+                            Primary
+                          </Button>,
+                        ]}
+                      >
+                        <Descriptions size="small" column={3}>
+                          <Descriptions.Item label="Created">Lili Qu</Descriptions.Item>
+                          <Descriptions.Item label="Association">333</Descriptions.Item>
+                          <Descriptions.Item label="Creation Time">2017-01-10</Descriptions.Item>
+                          <Descriptions.Item label="Effective Time">2017-10-10</Descriptions.Item>
+                          <Descriptions.Item label="Remarks">
+                            Gonghu Road, Xihu District, Hangzhou, Zhejiang, China
+                          </Descriptions.Item>
+                        </Descriptions>
+                      </PageHeader>
 
-                    <section
-                      className="container"
-                      style={{ margin: 0, padding: 0, overflow: 'auto' }}
-                    >
-                      {this.props.children}
+                      <section
+                        className="container"
+                        style={{ margin: 0, padding: 0, overflow: 'auto' }}
+                      >
+                        {this.props.children}
+                      </section>
+
                       <footer className="ultra-layout-footer">
                         Neyio's Coorperation Studio For Next Generation Teaching Plan.
                       </footer>
                     </section>
                   </main>
                 </div>
-              </>
+              </React.Fragment>
             </Context.Provider>
           )}
         </ContainerQuery>
