@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import classnames from 'classnames';
-import { Button, Input, Card, Divider, Icon } from 'antd';
+import { Button, Card, Divider, Icon } from 'antd';
 import styles from './index.less';
 import MarkdownViewer from '../Viewer';
 import { insertText } from './utils/insert';

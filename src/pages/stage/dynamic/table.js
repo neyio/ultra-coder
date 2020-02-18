@@ -27,7 +27,10 @@ const useTableExample = ({ request }) => {
   };
   const [filters, setFilters] = useState({});
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-  const [{ data, page, total, loading }, { setPage, setSize, setSearch }] = usePaginate({
+  const [
+    { data, page, total, loading, sorter = {} },
+    { setPage, setSize, setSearch, setSorter },
+  ] = usePaginate({
     request,
     ...config,
   });
@@ -43,19 +46,26 @@ const useTableExample = ({ request }) => {
         scrollToFirstRowOnChange={true}
         columns={[
           mixinFilter({
-            title: 'title',
-            dataIndex: 'title',
-            key: 'title',
+            title: '标题',
+            dataIndex: 'title', //列数据在数据项中对应的 key，支持 a.b.c、a[0].b.c[1] 的嵌套写法
+            key: 'title', //dataIndex定义的情况下可忽略，参上，用于react
+            sorter: true, //ANTD 不支持多重排序
             render: text => <span>{text}</span>,
           })(filters, setFilters, data => allowZeroAndFalse(setSearch)(data)),
           mixinFilter({
             title: 'type',
             dataIndex: 'type',
             key: 'type',
+            sorter: true,
           })(filters, setFilters, setSearch),
         ]}
         pagination={false}
         loading={loading}
+        onChange={(_p, _f, s) => {
+          console.log('TCL: sorter', sorter);
+          const { field, order } = s;
+          setSorter({ field, order });
+        }}
         footer={() => {
           return (
             <Row align="center">

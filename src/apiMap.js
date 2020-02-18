@@ -6,6 +6,12 @@ export default {
       logout: ['/api/logout'],
     },
   },
+  user: {
+    restful: true,
+    material: {
+      restful: true,
+    },
+  },
   statistics: {
     urls: {
       problem: ['/api/statistics/problem', 'get'],

@@ -57,7 +57,6 @@ export default {
           ],
         },
         metas: [{ charset: 'utf-8' }],
-
       },
     ],
     [

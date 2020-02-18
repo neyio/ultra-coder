@@ -40,7 +40,7 @@ class Dashboard extends React.Component {
   handleClick = e => {
     console.log(e);
     const { key } = e;
-    router.push('/dashboard' + key);
+    router.push('/edu' + key);
   };
   getContext = () => {
     return {
@@ -65,66 +65,50 @@ class Dashboard extends React.Component {
                           maxHeight: '100%',
                           overflow: 'scroll',
                         }}
-                        defaultSelectedKeys={['/my-grammers']}
-                        defaultOpenKeys={['s1', 's2', 's3', 's4']}
+                        defaultSelectedKeys={['/']}
+                        defaultOpenKeys={['m1', 'm2']}
                         inlineCollapsed={this.state.collapsed}
                         mode="inline"
                       >
                         <SubMenu
-                          key="s1"
+                          key="m1"
                           title={
                             <span>
                               <Icon type="edit" />
-                              <span>个人中心</span>
+                              <span>教学过程管理</span>
                             </span>
                           }
                         >
-                          <Menu.ItemGroup key="1g1" title="基本信息">
-                            <Menu.Item key="/">个人中心</Menu.Item>
+                          <Menu.Item key="/">最近使用</Menu.Item>
+                          <Menu.ItemGroup key="g1" title="库管理">
+                            <Menu.Item key="/libs">课件库</Menu.Item>
+                            <Menu.Item key="/topic">话题库</Menu.Item>
+                            <Menu.Item key="/test">测验库</Menu.Item>
+                            <Menu.Item key="/homework">作业库</Menu.Item>
+                          </Menu.ItemGroup>
+                          <Menu.ItemGroup key="g2" title="授课管理">
+                            <Menu.Item key="/atd">考勤情况</Menu.Item>
+                            <Menu.Item key="/val">教学评价</Menu.Item>
+                          </Menu.ItemGroup>
+                        </SubMenu>
+                        <SubMenu
+                          key="m2"
+                          title={
+                            <span>
+                              <Icon type="edit" />
+                              <span>在线判题系统</span>
+                            </span>
+                          }
+                        >
+                          <Menu.ItemGroup key="gs2" title="基本信息">
+                            <Menu.Item key="/oj/">个人中心</Menu.Item>
                             <Menu.Item key="/my-grammers">我的教案</Menu.Item>
                             <Menu.Item key="/pre-create">创建教案</Menu.Item>
                           </Menu.ItemGroup>
-                          <Menu.ItemGroup key="1g2" title="授课管理">
+                          <Menu.ItemGroup key="gs4" title="授课管理">
                             <Menu.Item key="/groups">班级群组</Menu.Item>
                             <Menu.Item key="/statistic">统计信息</Menu.Item>
                           </Menu.ItemGroup>
-                        </SubMenu>
-
-                        <SubMenu
-                          key="s2"
-                          title={
-                            <span>
-                              <Icon type="setting" />
-                              <span>做题进展</span>
-                            </span>
-                          }
-                        >
-                          <Menu.Item key="/account/setting">账户设置</Menu.Item>
-                          <Menu.Item key="/notification">消息通知</Menu.Item>
-                        </SubMenu>
-                        <SubMenu
-                          key="s3"
-                          title={
-                            <span>
-                              <Icon type="setting" />
-                              <span>收藏列表</span>
-                            </span>
-                          }
-                        >
-                          <Menu.Item key="/account/setting">账户设置</Menu.Item>
-                          <Menu.Item key="/notification">消息通知</Menu.Item>
-                        </SubMenu>
-                        <SubMenu
-                          key="s4"
-                          title={
-                            <span>
-                              <Icon type="setting" />
-                              <span>比赛列表</span>
-                            </span>
-                          }
-                        >
-                          <Menu.Item key="/account/setting">账户设置</Menu.Item>
-                          <Menu.Item key="/notification">消息通知</Menu.Item>
                         </SubMenu>
                       </Menu>
                     </aside>

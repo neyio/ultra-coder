@@ -33,14 +33,38 @@ body {
 
 @box-shadow-layout: 0 2px 4px rgba(0, 0, 0, 0.05);
 
-.generate-pd-mg(18);
+.generate-pd-mg(20);
 
 .generate-pd-mg(@n, @i: 0) when (@i =< @n) {
   .pd-@{i} {
     padding: (@i*1px);
   }
+  .pd-l-@{i} {
+    padding-left: (@i*1px);
+  }
+  .pd-r-@{i} {
+    padding-right: (@i*1px);
+  }
+  .pd-t-@{i} {
+    padding-top: (@i*1px);
+  }
+  .pd-b-@{i} {
+    padding-bottom: (@i*1px);
+  }
   .mg-@{i} {
     margin: (@i*1px);
+  }
+  .mg-l-@{i} {
+    margin-left: (@i*1px);
+  }
+  .mg-r-@{i} {
+    margin-right: (@i*1px);
+  }
+  .mg-t-@{i} {
+    margin-top: (@i*1px);
+  }
+  .mg-b-@{i} {
+    margin-bottom: (@i*1px);
   }
   .generate-pd-mg(@n, (@i + 1));
 }

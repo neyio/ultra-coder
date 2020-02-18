@@ -11,6 +11,25 @@
     .ant-page-header {
       padding: @font-size-base @font-size-base*1.5;
     }
+    .ant-menu-item-selected {
+      color: #fff;
+    }
+    .ant-table-row-hover {
+      color: #fff;
+      background: #e8e8e8;
+      & td {
+        background: #f6f6f6;
+        color: #333;
+      }
+      &.ant-table-row-selected {
+        color: #666;
+      }
+    }
+    h4.ant-typography,
+    .ant-typography h4 {
+      font-size: 1.3rem;
+      margin-top: 1rem;
+    }
   }
   main {
     display: flex;
@@ -38,7 +57,7 @@
         justify-content: space-between;
       }
       background: #fff;
-      padding: 1rem 2rem 0 2rem;
+      // padding: 1rem 2rem 0 2rem;
     }
     .ultra-layout-container {
       display: flex;

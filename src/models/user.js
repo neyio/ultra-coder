@@ -19,6 +19,7 @@ export default {
   state: {
     auth,
     nickname: '测试用户',
+    id: 1,
     statics: {
       attemped: 33, //尝试题目数
       finished: 19, //解决题目数

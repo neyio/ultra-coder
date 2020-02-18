@@ -9,10 +9,12 @@ const usePaginate = (
     page: initialPage,
     size: initialSize,
     search: initialSearch,
+    sorter: initialSorter,
   } = {
     page: 1,
     size: 10,
     search: null,
+    sorter: null,
     api: null,
     params: {},
     extra: {},
@@ -31,14 +33,15 @@ const usePaginate = (
   const [size, setSize] = useState(initialSize);
   const [total, setTotal] = useState(0);
   const [search, setSearch] = useState(initialSearch || null);
+  const [sorter, setSorter] = useState(initialSorter || null);
   const fetchData = useCallback(async () => {
     console.log('TCL: fetchData -> api, params', api, params);
     setLoading(true);
-    const response = await request(api, params, { ...extra, page, size, search });
+    const response = await request(api, params, { ...extra, page, size, search, sorter });
     setData(response.data);
     setTotal(response.total);
     setLoading(false);
-  }, [api, extra, page, params, request, search, size]);
+  }, [api, extra, page, params, request, search, size, sorter]);
   useEffect(() => {
     fetchData();
     return () => {
@@ -46,8 +49,8 @@ const usePaginate = (
     };
   }, [fetchData]);
   return [
-    { data, page, size, total, loading },
-    { setData, setPage, setSize, setSearch, setParams, setExtra, setApi },
+    { data, page, size, total, loading, sorter },
+    { setData, setPage, setSize, setSearch, setParams, setExtra, setApi, setSorter },
   ];
 };
 
