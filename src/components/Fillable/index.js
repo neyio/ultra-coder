@@ -1,8 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import Viewer from './Viewer';
 import { Input } from 'antd';
+import { cutDown } from './utils';
+import debounce from 'lodash.debounce';
 export default function Fillable({ onChange = () => {} }) {
   const [value, setValue] = useState('');
+  const debounceOnChange = useCallback(
+    debounce(function(content) {
+      onChange(cutDown(content));
+    }, 200),
+    [onChange],
+  );
   return (
     <div>
       <h5 className="mg-b-10">题目内容：</h5>
@@ -13,6 +21,7 @@ export default function Fillable({ onChange = () => {} }) {
         value={value}
         onChange={e => {
           setValue(e.target.value);
+          debounceOnChange(e.target.value);
         }}
       />
       <h5 className="mg-t-10 mg-b-20">预览区域：</h5>
@@ -21,6 +30,7 @@ export default function Fillable({ onChange = () => {} }) {
         showAnswer
         onChange={content => {
           setValue(content);
+          debounceOnChange(content);
         }}
       />
     </div>

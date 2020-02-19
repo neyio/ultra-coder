@@ -18,6 +18,9 @@ export default class EditableText extends Component {
     });
   };
 
+  getChildRef = ref => {
+    this.editorRef = ref;
+  };
   // @Debounce(200)
   onSubmit = obj => {
     const { onSubmit } = this.props;
@@ -43,12 +46,14 @@ export default class EditableText extends Component {
             onClick={e => {
               e.stopPropagation();
               this.switchEdit(true);
+              setTimeout(() => this.editorRef.setValue(text), 0);
             }}
           >
             {(text !== '<p></p>' && <EditorShower value={text} />) || children}
           </span>
         ) : (
           <Editor
+            setRef={this.getChildRef}
             onSubmit={html => {
               this.onSubmit(html);
             }}

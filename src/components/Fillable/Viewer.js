@@ -1,25 +1,19 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { Input } from 'antd';
 import { css } from 'emotion';
+import { cutDown, mixUp } from './utils';
+
 //split(/[(_|——){2,10}(^_)?(\s)+(_|——){2,10}]/); //split(/[_|——]{2,}/);
 export default function FillableViewer({ showAnswer, content = '', onChange = () => {} }) {
   //    var reg = /_{2,}([\s\S]*?)_{2,}/g;
   //reg.exec("题__答案1__题目内容2__答案2__");
   // '题__答案1__题目内容2__答案2__'.replace(/_{2,}([\s\S]*?)_{2,}/g, '---').split('---');
   const [answers, setAnswers] = useState([]);
-  const [spArray, setSpArray] = useState([]);
+  const [cutDownArray, setCutDownArray] = useState([]);
   const resetAnswer = useCallback(() => {
-    const reg = /_{2,}([\s\S]*?)_{2,}/g;
-    let temp = [];
-    const tempAnswers = [];
-    while ((temp = reg.exec(content)) !== null) {
-      tempAnswers.push(temp[1]);
-    }
-    setAnswers(tempAnswers);
-    const getContent = (str = '') => {
-      return str.replace(/_{2,}([\s\S]*?)_{2,}/g, '::@content::').split('::@content::');
-    };
-    setSpArray(getContent(content));
+    const { answers, cutDownArray } = cutDown(content);
+    setAnswers(answers);
+    setCutDownArray(cutDownArray);
   }, [content]);
 
   useEffect(() => {
@@ -42,7 +36,7 @@ export default function FillableViewer({ showAnswer, content = '', onChange = ()
         }
       `}
     >
-      {spArray.reduce((acc, item, index) => {
+      {cutDownArray.reduce((acc, item, index) => {
         return (
           <React.Fragment>
             {acc}
@@ -66,13 +60,7 @@ export default function FillableViewer({ showAnswer, content = '', onChange = ()
                   setAnswers(nextAnswers);
                 }}
                 onPressEnter={() => {
-                  onChange(
-                    spArray.reduce((acc, item, i) => {
-                      return `${acc}${item ? item : ''}${
-                        answers[i] ? '__' + answers[i] + '__' : ''
-                      }`;
-                    }, ''),
-                  );
+                  onChange(mixUp({ cutDownArray, answers }));
                 }}
               />
             ) : null}
@@ -80,7 +68,7 @@ export default function FillableViewer({ showAnswer, content = '', onChange = ()
           </React.Fragment>
         );
       }, null)}
-      {showAnswer && <div>答案：{answers.join(',')}</div>}
+      {showAnswer && answers.join(',') !== '' && <div>答案：{answers.join(',')}</div>}
     </div>
   );
 }

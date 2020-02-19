@@ -7,6 +7,9 @@ import router from 'umi/router';
 import { NAMESPACE, ACTIONS } from '../../../models/request';
 import ChoiceMaker from '../../../components/Choice';
 import Fillable from '../../../components/Fillable';
+
+import FillableViewer from '../../../components/Fillable/Viewer';
+import EditableHtml from '../../../components/Dynamic/EditableHtml';
 const { TabPane } = Tabs;
 const routes = [
   {
@@ -27,18 +30,22 @@ const routes = [
     breadcrumbName: '创建题目',
   },
 ];
-
-const Problems = props => {
-  const [title, setTitle] = useState(null);
-  const [type, setType] = useState('choice');
-  const [state, setState] = useState({
+const initialState = {
+  choice: {
     options: [null, null],
     context: '<p>暂无内容</p>',
     answer: [],
     mode: 'single',
     score: 0,
     optional: false,
-  });
+  },
+};
+
+const Problems = props => {
+  const [title, setTitle] = useState(null);
+  const [type, setType] = useState('choice');
+  const [state, setState] = useState(initialState.choice);
+  const [subjectiveContent, setSubjectiveContent] = useState(null);
   const { loading, create } = props;
   return (
     <div style={{ background: '#fff', height: '100%', overflow: 'auto' }}>
@@ -59,7 +66,7 @@ const Problems = props => {
                   {
                     api: 'user.problem.create',
                     params: { userId: 1 },
-                    extra: { title, content: state },
+                    extra: { title, content: state, type },
                   },
                   response => {
                     console.log('TCL: response', response);
@@ -92,6 +99,8 @@ const Problems = props => {
             onChange={key => {
               console.log('active key', key);
               setType(key);
+              switch (key) {
+              }
             }}
             activeKey={type}
             size="default"
@@ -117,26 +126,47 @@ const Problems = props => {
             <TabPane tab="填空题" key="fillable">
               <blockquote className="pd-l-10" style={{ borderLeft: '4px solid #ccc' }}>
                 Tips：当你输入超过 「 两个及以上下划线(_)+答案文本+两个及以上下划线(_)
-                」的结构式时，系统将自动插入一个填空框，并以下划线内部的文字作为答案。
+                」的结构式时，系统将自动插入一个填空框，并以下划线内部的文字作为答案。当完成题目时，下方会显示答案。
+                <strong>
+                  如果在预览中修改了答案，请务必按下回车键以同步上方文本，上方的文本会作为最终的结果存入服务器。
+                </strong>
               </blockquote>
-              <div className="pd-b-20 pd-t-10">
-                例如：我国的首都是
-                <code>__</code>北京<code>__</code>市。
-              </div>
+
               {type === 'fillable' && (
                 <Fillable
                   {...state}
-                  onSave={(payload = {}) => {
+                  onChange={content => {
+                    console.log('TCL: content', content);
                     setState({
                       ...state,
-                      ...payload,
+                      ...content,
                     });
                   }}
                 />
               )}
+              <Divider type="horizontal" />
+              <div className="pd-b-20 pd-t-10">
+                例如：我国的首都是
+                <code>__</code>北京<code>__</code>市。
+              </div>
+              <FillableViewer content="我国的首都是__北京__市" showAnswer />
             </TabPane>
-            <TabPane tab="Tab 3" key="3">
-              Content of tab 3
+            <TabPane tab="主观题" key="subjective">
+              <EditableHtml
+                onSubmit={t => setSubjectiveContent(t)}
+                text={subjectiveContent}
+                editable
+              >
+                <div
+                  className="markdown-section n-editable-text-default-container"
+                  dangerouslySetInnerHTML={{
+                    __html:
+                      ((subjectiveContent === '<p></p>' || !subjectiveContent) &&
+                        '<div style="font-weight:bold;border-bottom:1px solid #ccc;padding:1rem;line-height;2rem;font-size:1rem;">点击文本进行编辑。</div>') ||
+                      subjectiveContent,
+                  }}
+                />
+              </EditableHtml>
             </TabPane>
           </Tabs>
         </div>
