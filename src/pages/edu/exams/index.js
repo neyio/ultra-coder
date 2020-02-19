@@ -27,14 +27,13 @@ const routes = [
     breadcrumbName: '库管理',
   },
   {
-    path: '/edu/topics',
-    breadcrumbName: '话题库',
+    breadcrumbName: '测验库',
   },
 ];
 
-const Libs = ({ userId, request }) => {
+const Exams = ({ userId, request }) => {
   const config = {
-    api: 'user.topic.get',
+    api: 'user.exam.get',
     params: { userId },
     extra: {},
     page: 1,
@@ -50,16 +49,19 @@ const Libs = ({ userId, request }) => {
     ...config,
     size: 30,
   });
+  const start = record => {
+    console.log('TCL: start -> record', record);
+  };
   const destroy = record => {
     console.log('TCL: destroy -> record', record);
   };
   const edit = record => {
-    router.push(`/edu/topics/${record.id}`);
+    router.push(`/edu/exams/${record.id}`);
   };
   return (
     <div style={{ background: '#fff' }}>
       <PageHeader
-        title="话题库"
+        title="测验库"
         subTitle="[在此进行话题创建后，可以分配到对应的课程中]"
         breadcrumb={{ routes }}
         extra={[
@@ -68,10 +70,10 @@ const Libs = ({ userId, request }) => {
               type="primary"
               key="create-top"
               icon="plus"
-              onClick={() => router.push('/edu/topics/create')}
+              onClick={() => router.push('/edu/exams/create')}
             >
-              创建话题
-            </Button>{' '}
+              创建测验
+            </Button>
           </Affix>,
         ]}
       >
@@ -109,10 +111,19 @@ const Libs = ({ userId, request }) => {
             {
               title: '操作',
               key: 'actions',
-              width: 120,
+              width: 160,
               render: (_, record) => {
                 return (
                   <ButtonGroup>
+                    <Button
+                      shape="round"
+                      onClick={() => {
+                        start(record);
+                        //<Icon type="pause" />
+                      }}
+                      icon="caret-right"
+                      size="small"
+                    />
                     <Button
                       shape="round"
                       onClick={() => {
@@ -120,7 +131,7 @@ const Libs = ({ userId, request }) => {
                       }}
                       icon="edit"
                       size="small"
-                    ></Button>
+                    />
 
                     <Button
                       icon="delete"
@@ -129,7 +140,7 @@ const Libs = ({ userId, request }) => {
                       onClick={() => {
                         destroy(record);
                       }}
-                    ></Button>
+                    />
                   </ButtonGroup>
                 );
               },
@@ -211,4 +222,4 @@ export default connect(
     };
   },
   () => ({}),
-)(Libs);
+)(Exams);

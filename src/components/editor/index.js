@@ -76,9 +76,7 @@ export default class RichEditor extends React.Component {
   state = {
     // 创建一个空的value作为初始值
     value: BraftEditor.createEditorState(
-      typeof this.props.initialValue === 'function'
-        ? this.props.initialValue()
-        : this.props.initialValue || null,
+      typeof this.props.text === 'function' ? this.props.text() : this.props.text || null,
     ),
   };
 
@@ -89,9 +87,7 @@ export default class RichEditor extends React.Component {
     try {
       this.setState({
         value: BraftEditor.createEditorState(
-          typeof this.props.initialValue === 'function'
-            ? this.props.initialValue()
-            : this.props.initialValue || null,
+          typeof this.props.text === 'function' ? this.props.text() : this.props.text || null,
         ),
       });
     } catch (e) {

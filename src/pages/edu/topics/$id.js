@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { PageHeader, Divider, Button, Input, Spin, message, Affix } from 'antd';
 import { connect } from 'dva';
 import { cx, css } from 'emotion';
@@ -22,22 +22,48 @@ const routes = [
   },
 
   {
-    path: '/edu/topcics/create',
-    breadcrumbName: '创建话题',
+    breadcrumbName: '话题编辑',
   },
 ];
 
 const Topics = props => {
   const [content, setContent] = useState(null);
   const [topic, setTopic] = useState(null);
-  const { loading, create } = props;
+  const { loading, update, show, userId } = props;
+  const {
+    match: {
+      params: { id },
+    },
+  } = props;
+  const fetchData = useCallback(() => {
+    show(
+      {
+        api: 'user.topic.show',
+        params: {
+          userId,
+          topicId: id,
+        },
+        extra: {},
+      },
+      response => {
+        const { content, title } = response;
+        console.log('TCL: fetchData -> content', content);
+        setTopic(title);
+        setContent(content);
+      },
+    );
+  }, [show, userId, id]);
+  useEffect(() => {
+    fetchData();
+    return () => {};
+  }, [id, fetchData]);
   return (
     <div style={{ background: '#fff', height: '100%' }}>
       <PageHeader
         onBack={() => {
           router.push('/edu/topics');
         }}
-        title="创建话题"
+        title="话题编辑"
         breadcrumb={{ routes }}
         subTitle="注意：编辑完内容请点击右侧同步至服务器"
         extra={[
@@ -46,11 +72,15 @@ const Topics = props => {
               type="primary"
               icon="upload"
               onClick={() => {
-                create(
-                  { api: 'user.topic.create', params: { userId: 1 }, extra: { topic, content } },
+                update(
+                  {
+                    api: 'user.topic.update',
+                    params: { userId: 1, topicId: id },
+                    extra: { topic, content },
+                  },
                   response => {
                     console.log('TCL: response', response);
-                    message.success('创建成功', 3);
+                    message.success('修改成功', 3);
                     router.goBack();
                   },
                 );
@@ -67,7 +97,7 @@ const Topics = props => {
             onChange={e => {
               setTopic(e.target.value);
             }}
-            defaultValue={topic}
+            value={topic}
             placeholder="请输入话题的主题以进行区分"
           />
         </div>
@@ -94,6 +124,7 @@ const Topics = props => {
           <Spin tip="加载中..." spinning={!!loading}>
             <EditableHtml
               text={content}
+              editable
               onSubmit={html => {
                 setContent(html);
               }}
@@ -114,7 +145,7 @@ export default connect(
   },
   dispatch => {
     return {
-      create: ({ api = 'user.topic.create', params = {}, extra = {} }, callback) => {
+      show: ({ api = 'user.topic.show', params = {}, extra = {} }, callback) => {
         dispatch({
           type: `${NAMESPACE}/${ACTIONS.FETCH_RESTFUL_API}`,
           payload: {

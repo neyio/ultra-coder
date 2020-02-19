@@ -14,6 +14,12 @@ export default {
     topic: {
       restful: true,
     },
+    problem: {
+      restful: true,
+    },
+    exam: {
+      restful: true,
+    },
   },
   system: {
     restful: false,

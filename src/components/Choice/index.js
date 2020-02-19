@@ -186,7 +186,6 @@ export default class ChoiceMaker extends Component {
             <span className="item">
               <label className="tool-name">题目类型:</label>
               <Radio.Group
-                defaultValue={mode}
                 value={mode}
                 buttonStyle="solid"
                 size="small"
@@ -203,7 +202,7 @@ export default class ChoiceMaker extends Component {
                   size="small"
                   min={1}
                   max={100000}
-                  defaultValue={score}
+                  value={score}
                   onChange={this.onScoreChanged}
                 />
               </span>
@@ -211,7 +210,6 @@ export default class ChoiceMaker extends Component {
             <span className="item">
               <label className="tool-name">必填项:</label>
               <Radio.Group
-                defaultValue={optional}
                 value={optional}
                 buttonStyle="solid"
                 size="small"

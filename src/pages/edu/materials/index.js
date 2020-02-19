@@ -54,7 +54,16 @@ const Libs = ({ userId, request }) => {
       <Divider type="horizontal" className={cx('mg-t-10', 'mg-b-10')}></Divider>
       <section className={cx('pd-18', 'pd-t-10')}>
         <Breadcrumb
-          className="mg-b-18"
+          className={cx(
+            'mg-b-18',
+            'pd-l-10',
+            css`
+              border-left: 3px solid #999;
+              &::before {
+                content: '路径：';
+              }
+            `,
+          )}
           onClick={e => {
             console.log(e);
           }}
@@ -127,6 +136,7 @@ const Libs = ({ userId, request }) => {
             );
           }, null)}
         </Breadcrumb>
+
         <Table
           {...mixinSelection(selectedRowKeys, setSelectedRowKeys, {})}
           dataSource={data || []}

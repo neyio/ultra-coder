@@ -2,7 +2,7 @@ import { delay } from 'roadhog-api-doc';
 import mockjs from 'mockjs';
 
 const proxy = {
-  'GET /api/user/1/topic/': mockjs.mock({
+  'GET /api/user/1/exam/': mockjs.mock({
     'data|10': [
       {
         'id|+1': 1,
@@ -12,13 +12,13 @@ const proxy = {
     ],
     total: 23,
   }),
-  'GET /api/user/1/topic/*': mockjs.mock({
+  'GET /api/user/1/exam/*': mockjs.mock({
     id: 1,
     title: '@cparagraph',
     content: '@cparagraph',
     updated_at: '@DATETIME("yyyy-MM-dd HH:mm:ss")',
   }),
-  'POST /api/user/1/topic': mockjs.mock({
+  'POST /api/user/1/exam': mockjs.mock({
     'id|+1': 1,
     title: '@cparagraph',
     content: '@cparagraph',
