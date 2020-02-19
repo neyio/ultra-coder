@@ -62,7 +62,8 @@ class Dashboard extends React.Component {
                         onClick={this.handleClick}
                         style={{
                           width: this.state.collapsed ? 80 : 256,
-                          maxHeight: '100%',
+                          maxHeight: 'calc(100%-3rem)',
+                          height: '100%',
                           overflow: 'scroll',
                         }}
                         defaultSelectedKeys={['/']}
@@ -81,10 +82,10 @@ class Dashboard extends React.Component {
                         >
                           <Menu.Item key="/">最近使用</Menu.Item>
                           <Menu.ItemGroup key="g1" title="库管理">
-                            <Menu.Item key="/libs">课件库</Menu.Item>
-                            <Menu.Item key="/topic">话题库</Menu.Item>
+                            <Menu.Item key="/materials">课件库</Menu.Item>
+                            <Menu.Item key="/topics">话题库</Menu.Item>
                             <Menu.Item key="/test">测验库</Menu.Item>
-                            <Menu.Item key="/homework">作业库</Menu.Item>
+                            <Menu.Item key="/homework">题库</Menu.Item>
                           </Menu.ItemGroup>
                           <Menu.ItemGroup key="g2" title="授课管理">
                             <Menu.Item key="/atd">考勤情况</Menu.Item>

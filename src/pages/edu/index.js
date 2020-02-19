@@ -51,11 +51,8 @@ const Welcome = () => {
     };
   });
   return (
-    <div>
-      <PageHeader
-        title="控制台"
-        style={{ margin: '-1rem -2rem 1rem -2rem', borderBottom: '1px solid #ececec' }}
-      />
+    <div style={{ padding: '0 2rem' }}>
+      <PageHeader title="控制台" style={{ marginLeft: '-2rem' }} />
       {count < 5 ? (
         <Alert
           message={<div className="content"> 欢迎回来，亲爱的板书用户</div>}

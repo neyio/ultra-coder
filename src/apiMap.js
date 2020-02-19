@@ -11,6 +11,15 @@ export default {
     material: {
       restful: true,
     },
+    topic: {
+      restful: true,
+    },
+  },
+  system: {
+    restful: false,
+    urls: {
+      ossConfig: ['/api/system/oss-config', 'get'],
+    },
   },
   statistics: {
     urls: {

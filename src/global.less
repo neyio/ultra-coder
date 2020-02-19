@@ -1,9 +1,12 @@
 @import './custom.less';
 @import '~antd/lib/style/themes/default.less';
 @import './components/less/index.less';
+@import './components/Dynamic/dynamic.less';
+
 @import './pages/problem/_layout.less';
 @import './pages/user/_layout.less';
 @import './pages/stage/_layout.less';
+
 html,
 body,
 #root,
@@ -26,6 +29,12 @@ body {
   flex-direction: column;
   overflow: auto;
 }
+
+.bf-controlbar .control-item.button.editor-save-btn {
+  color: #eee;
+  background: #000;
+}
+
 .ultra-header {
   // padding: @space-base @space-base*3!important;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);

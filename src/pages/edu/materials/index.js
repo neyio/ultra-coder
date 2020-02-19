@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { PageHeader, Divider, Table, Pagination, Row, Breadcrumb, Icon, Col, Button } from 'antd';
 import usePaginate from '@/components/Hooks/usePaginate';
 import { mixinFilter, mixinSelection } from '@/components/Dynamic/Table';
+import Upload from '@/components/Dynamic/Upload';
 import { connect } from 'dva';
 import { cx, css } from 'emotion';
 const ButtonGroup = Button.Group;
+
 const routes = [
   {
     path: '/',
@@ -15,7 +17,7 @@ const routes = [
     breadcrumbName: '教学过程',
   },
   {
-    path: '/edu/libs',
+    path: '/edu/materials',
     breadcrumbName: '课件库',
   },
 ];
@@ -28,11 +30,12 @@ const Libs = ({ userId, request }) => {
     page: 1,
     size: 30,
   };
-  const [filters, setFilters] = useState({});
-  const [path, setPath] = useState([]);
+  const [filters, setFilters] = useState({}); //过滤
+  const [path, setPath] = useState([]); //面包屑
+  const [files, setFiles] = useState([]);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [
-    { data, page, total, size, loading, sorter = {} },
+    { data, page, total, size, loading, fetchData, sorter = {} },
     { setPage, setSize, setSearch, setSorter, setApi, setParams, setExtra },
   ] = usePaginate({
     request,
@@ -217,12 +220,37 @@ const Libs = ({ userId, request }) => {
                   <span className="mg-r-18">操作:</span>
                   <Button
                     size="small"
+                    type="primary"
+                    icon="download"
                     onClick={() => {
                       console.log(selectedRowKeys);
                     }}
                   >
-                    获取点击的行
+                    下载
                   </Button>
+                  <span className="mg-r-10"></span>
+                  <Button
+                    size="small"
+                    onClick={() => {
+                      fetchData();
+                    }}
+                    icon="sync"
+                    spin={loading}
+                  >
+                    刷新
+                  </Button>
+                  <span className="mg-r-10"></span>
+                  <Upload
+                    size="small"
+                    value={files}
+                    onChange={files => {
+                      console.log('TCL: Libs -> e ', files);
+                      setFiles(files);
+                    }}
+                    uploadSuccess={file => {
+                      console.log('上传成功', file);
+                    }}
+                  />
                 </Col>
               </Row>
             );

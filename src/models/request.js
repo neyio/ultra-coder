@@ -118,9 +118,9 @@ export default (({ initialApis = [], effects = {}, reducers = {}, subscriptions 
     },
     *[ACTIONS.FETCH_RESTFUL_API]({ payload }, { select, call }) {
       const restfulApiRequest = yield select(state => state[NAMESPACE].restfulApiRequest);
-      const { callback, ...body } = payload;
+      const { callback, config } = payload;
       try {
-        const data = yield call(restfulApiRequest, ...body);
+        const data = yield call(restfulApiRequest, ...config);
         callback(data);
       } catch (e) {
         throw e;

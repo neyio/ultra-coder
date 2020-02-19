@@ -49,7 +49,7 @@ const usePaginate = (
     };
   }, [fetchData]);
   return [
-    { data, page, size, total, loading, sorter },
+    { data, page, size, total, loading, sorter, fetchData },
     { setData, setPage, setSize, setSearch, setParams, setExtra, setApi, setSorter },
   ];
 };
