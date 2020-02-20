@@ -4,16 +4,26 @@ import { css } from 'emotion';
 import ItemTypes from './ItemTypes';
 import dragHandlerSvg from './draghandler.svg';
 
-const style = {
+const presetStyle = {
   border: '1px dashed gray',
   padding: '0.5rem 1rem',
   marginBottom: '.5rem',
   backgroundColor: 'white',
-  cursor: 'move',
 };
 
 const Card = React.forwardRef(
-  ({ text, isDragging, connectDragSource, connectDragPreview, connectDropTarget }, ref) => {
+  (
+    {
+      children,
+      isDragging,
+      style,
+      className,
+      connectDragSource,
+      connectDragPreview,
+      connectDropTarget,
+    },
+    ref,
+  ) => {
     const elementRef = useRef(null);
     connectDropTarget(elementRef);
     const opacity = isDragging ? 0 : 1;
@@ -21,7 +31,7 @@ const Card = React.forwardRef(
       getNode: () => elementRef.current,
     }));
     return connectDragPreview(
-      <div ref={elementRef} style={{ ...style, opacity }}>
+      <div ref={elementRef} style={{ ...presetStyle, ...style, opacity }} className={className}>
         {connectDragSource(
           <img
             className={css`
@@ -32,12 +42,15 @@ const Card = React.forwardRef(
               left: 0;
               transform: rotate(-90deg);
               margin-right: 14px;
+              &:hover {
+                cursor: move;
+              }
             `}
             src={dragHandlerSvg}
             alt="dragHandlerSvg"
           />,
         )}
-        {text}
+        {children}
       </div>,
     );
   },
