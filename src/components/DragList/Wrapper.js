@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import CardWrapper from './Card';
+import CardWrapper from './CardWrapper';
 import Context from './Context';
 import update from 'immutability-helper';
 const move = cards => (dragIndex, hoverIndex) => {
@@ -20,6 +20,7 @@ const Container = props => {
   const moveCard = (dragIndex, hoverIndex) => {
     dispatch({ type: 'moveCard', payload: move(state)(dragIndex, hoverIndex) });
   };
+
   return state.map((card, i) => (
     <CardWrapper
       style={style}
@@ -27,7 +28,7 @@ const Container = props => {
       key={card[rowKey]}
       rowKey={rowKey}
       index={i}
-      id={card.id}
+      id={card[rowKey]}
       moveCard={moveCard}
     >
       {renderItem(card)}

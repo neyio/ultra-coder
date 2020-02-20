@@ -1,38 +1,20 @@
-import React, { useEffect } from 'react';
-import { Button } from 'antd';
+```js
+
+import React from 'react';
 import DragList from '@/components/DragList';
 import Wrapper from '@/components/DragList/Wrapper';
 
 const RenderItemDemo = ({ text }) => {
-  useEffect(() => {
-    return () => {
-      console.log('clean RenderItemDemo');
-    };
-  }, []);
   return <div>示例：{text} 随便来点啥</div>;
 };
 
 //必须包含id
 export default function DragPanelDemo() {
-  let resetDataSource = null;
   return (
     <div>
-      <Button
-        onClick={() => {
-          resetDataSource([
-            { id: 1, text: '重置1' },
-            { id: 2, text: '重置2' },
-          ]);
-        }}
-      >
-        重置
-      </Button>
       <DragList
         onChange={data => {
           console.log('dragList=>', data);
-        }}
-        resetDataSource={e => {
-          resetDataSource = e;
         }}
         dataSource={[
           {
@@ -65,9 +47,12 @@ export default function DragPanelDemo() {
             text: 'PROFIT',
           },
         ]}
+        showTreeList
       >
         <Wrapper rowKey="id" renderItem={record => <RenderItemDemo text={record.text} />} />
       </DragList>
     </div>
   );
 }
+
+```
