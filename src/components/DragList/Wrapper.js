@@ -15,8 +15,8 @@ const move = cards => (dragIndex, hoverIndex) => {
 };
 
 const Container = props => {
-  const { state, dispatch } = useContext(Context);
-  const { renderItem, style = {}, rowKey = 'id', className = '' } = props;
+  const { state, dispatch, rowKey = 'id' } = useContext(Context);
+  const { renderItem, style = {}, className = '' } = props;
   const moveCard = (dragIndex, hoverIndex) => {
     dispatch({ type: 'moveCard', payload: move(state)(dragIndex, hoverIndex) });
   };

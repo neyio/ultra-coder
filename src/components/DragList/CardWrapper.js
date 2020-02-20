@@ -7,7 +7,8 @@ import dragHandlerSvg from './draghandler.svg';
 const presetStyle = {
   border: '1px dashed gray',
   padding: '0.5rem 1rem',
-  marginBottom: '.5rem',
+  paddingLeft: '1.5rem',
+  marginBottom: '0.5rem',
   backgroundColor: 'white',
 };
 
@@ -31,15 +32,20 @@ const Card = React.forwardRef(
       getNode: () => elementRef.current,
     }));
     return connectDragPreview(
-      <div ref={elementRef} style={{ ...presetStyle, ...style, opacity }} className={className}>
+      <div
+        ref={elementRef}
+        style={{ position: 'relative', ...presetStyle, ...style, opacity }}
+        className={className}
+      >
         {connectDragSource(
           <img
             className={css`
               font-size: 14px;
               width: 14px;
-              position: abosulte;
-              top: 0;
-              left: 0;
+              line-height: 14px;
+              position: absolute;
+              top: 9px;
+              left: 7px;
               transform: rotate(-90deg);
               margin-right: 14px;
               &:hover {

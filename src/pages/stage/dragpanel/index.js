@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Button } from 'antd';
+import { Button, Divider } from 'antd';
 import DragList from '@/components/DragList';
 import Wrapper from '@/components/DragList/Wrapper';
 
@@ -20,13 +20,15 @@ export default function DragPanelDemo() {
       <Button
         onClick={() => {
           resetDataSource([
-            { id: 1, text: '重置1' },
-            { id: 2, text: '重置2' },
+            { id: 1, text: '重置1', title: '题目1' },
+            { id: 2, text: '重置2', title: '题目2' },
           ]);
         }}
       >
         重置
       </Button>
+
+      <Divider />
       <DragList
         onChange={data => {
           console.log('dragList=>', data);
@@ -37,34 +39,36 @@ export default function DragPanelDemo() {
         dataSource={[
           {
             id: 1,
-            text: 'Write a cool JS library',
+            title: '题目1',
+            text:
+              'Write a cool JS library，Write a cool JS library,Write a cool JS library，Write a cool JS library,Write a cool JS library，Write a cool JS library',
           },
           {
             id: 2,
-            text: 'Make it generic enough',
+            title: '题目2',
+            text:
+              'Make it generic enough,Write a cool JS library，Write a cool JS library,Write a cool JS library，Write a cool JS library,Write a cool JS library，Write a cool JS library,Write a cool JS library，Write a cool JS library,Write a cool JS library，Write a cool JS library,Write a cool JS library，Write a cool JS library',
           },
           {
             id: 3,
-            text: 'Write README',
+            title: '题目3',
+            text:
+              'Ant Design, a design language for background applications, is refined by Ant UED Team. Ant Design, a design language for background applications, is refined by Ant UED Team. Ant Design, a design language for background applications, is refined by Ant UED Team. Ant Design, a design language for background applications, is refined by Ant UED Team. Ant Design, a design language for background applications, is refined by Ant UED Team. Ant Design, a design language for background applications, is refined by Ant UED Team.',
           },
           {
             id: 4,
-            text: 'Create some examples',
+            title: '题目4',
+            text:
+              'Ant Design, a design language for background applications, is refined by Ant UED Team. Ant Design, a design language for background applications, is refined by Ant UED Team. Ant Design, a design language for background applications, is refined by Ant UED Team. Ant Design, a design language for background applications, is refined by Ant UED Team. Ant Design, a design language for background applications, is refined by Ant UED Team. Ant Design, a design language for background applications, is refined by Ant UED Team.',
           },
           {
             id: 5,
+            title: '题目5',
             text:
-              'Spam in Twitter and IRC to promote it (note that this element is taller than the others)',
-          },
-          {
-            id: 6,
-            text: '???',
-          },
-          {
-            id: 7,
-            text: 'PROFIT',
+              'Ant Design, a design language for background applications, is refined by Ant UED Team. Ant Design, a design language for background applications, is refined by Ant UED Team. Ant Design, a design language for background applications, is refined by Ant UED Team. Ant Design, a design language for background applications, is refined by Ant UED Team. Ant Design, a design language for background applications, is refined by Ant UED Team. Ant Design, a design language for background applications, is refined by Ant UED Team.',
           },
         ]}
+        showTreeView
       >
         <Wrapper rowKey="id" renderItem={record => <RenderItemDemo text={record.text} />} />
       </DragList>
