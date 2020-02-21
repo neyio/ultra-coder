@@ -148,7 +148,7 @@ const Libs = ({ userId, request }) => {
                       fetchData();
                     }}
                     icon="sync"
-                    spin={loading}
+                    spin={!!loading ? loading.toString() : undefined}
                   >
                     刷新
                   </Button>
@@ -159,7 +159,7 @@ const Libs = ({ userId, request }) => {
                       fetchData();
                     }}
                     icon="plus"
-                    spin={loading}
+                    spin={!!loading ? loading.toString() : undefined}
                   >
                     创建
                   </Button>

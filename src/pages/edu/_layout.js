@@ -52,8 +52,8 @@ class Dashboard extends React.Component {
       <ConfigProvider locale={zhCN}>
         <ContainerQuery query={query}>
           {params => (
-            <Context.Provider value={this.getContext()}>
-              <>
+            <div>
+              <Context.Provider value={this.getContext()}>
                 <Header />
                 <div id="ultra-dashboard" className={classNames(params)}>
                   <main>
@@ -122,8 +122,8 @@ class Dashboard extends React.Component {
                     </section>
                   </main>
                 </div>
-              </>
-            </Context.Provider>
+              </Context.Provider>
+            </div>
           )}
         </ContainerQuery>
       </ConfigProvider>

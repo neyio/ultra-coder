@@ -55,6 +55,9 @@ const Exams = ({ userId, request }) => {
   const destroy = record => {
     console.log('TCL: destroy -> record', record);
   };
+  const share = record => {
+    console.log('TCL: share -> record', record);
+  };
   const edit = record => {
     router.push(`/edu/exams/${record.id}`);
   };
@@ -111,7 +114,7 @@ const Exams = ({ userId, request }) => {
             {
               title: '操作',
               key: 'actions',
-              width: 160,
+              width: 180,
               render: (_, record) => {
                 return (
                   <ButtonGroup>
@@ -139,6 +142,15 @@ const Exams = ({ userId, request }) => {
                       size="small"
                       onClick={() => {
                         destroy(record);
+                      }}
+                    />
+
+                    <Button
+                      icon="share-alt"
+                      shape="round"
+                      size="small"
+                      onClick={() => {
+                        share(record);
                       }}
                     />
                   </ButtonGroup>
@@ -175,7 +187,7 @@ const Exams = ({ userId, request }) => {
                       fetchData();
                     }}
                     icon="sync"
-                    spin={loading}
+                   loading={loading}
                   >
                     刷新
                   </Button>
@@ -186,7 +198,7 @@ const Exams = ({ userId, request }) => {
                       fetchData();
                     }}
                     icon="plus"
-                    spin={loading}
+                    loading={loading}
                   >
                     创建
                   </Button>

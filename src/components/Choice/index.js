@@ -58,7 +58,8 @@ export default class ChoiceMaker extends Component {
   static defaultProps = {
     choices: [],
     options: [],
-    answer: [],
+
+    answers: [],
     disabled: false,
     type: 'single',
     onChange: val => {
@@ -67,6 +68,7 @@ export default class ChoiceMaker extends Component {
     onSave: () => {
       console.log('empty onSave.');
     },
+    disable: false,
   };
   constructor(props) {
     super(props);
@@ -87,7 +89,7 @@ export default class ChoiceMaker extends Component {
     const { onSave } = this.props;
     if (onSave) {
       onSave({
-        answer: e.sort((i, j) => {
+        answers: e.sort((i, j) => {
           return i.charCodeAt(0) - j.charCodeAt(0);
         }),
         mode: e.length > 1 ? 'multiple' : 'single',
@@ -110,7 +112,7 @@ export default class ChoiceMaker extends Component {
 
     const { onSave } = this.props;
     if (onSave) {
-      onSave({ context: text });
+      onSave({ content: text });
     }
   };
 
@@ -124,7 +126,7 @@ export default class ChoiceMaker extends Component {
   };
 
   onDeleteOption = index => {
-    const { options, onSave, answer } = this.props;
+    const { options, onSave, answers } = this.props;
     if (options.length <= 2) {
       message.error('选项不得低于两项');
       return;
@@ -136,7 +138,7 @@ export default class ChoiceMaker extends Component {
         options: options.filter((_, i) => {
           return i !== index;
         }),
-        answer: answer
+        answers: answers
           .filter(item => {
             return item && item !== str;
           })
@@ -152,8 +154,8 @@ export default class ChoiceMaker extends Component {
   };
 
   onForceChangeMode = e => {
-    const { onSave, answer } = this.props;
-    if (e.target.value === 'single' && answer.length > 1) {
+    const { onSave, answers } = this.props;
+    if (e.target.value === 'single' && answers.length > 1) {
       message.error('请取消部分选项后，再尝试将模式设置为单选');
       return;
     }
@@ -178,7 +180,7 @@ export default class ChoiceMaker extends Component {
   };
 
   render() {
-    const { options, context, answer, mode, score, optional } = this.props;
+    const { options, content, answers, mode, score, optional } = this.props;
     return (
       <>
         <Toolbar>
@@ -224,14 +226,14 @@ export default class ChoiceMaker extends Component {
 
         <Container>
           <header className="n-editable-context-container n-choice-context-container n-choice-title">
-            <EditableHtml onSubmit={this.onContextChanged} text={context} editable>
+            <EditableHtml onSubmit={this.onContextChanged} text={content} editable>
               <div
                 className="markdown-section n-editable-text-default-container"
                 dangerouslySetInnerHTML={{
                   __html:
-                    ((context === '<p></p>' || !context) &&
+                    ((content === '<p></p>' || !content) &&
                       '<div style="font-weight:bold;border-bottom:1px solid #ccc;padding:1rem;line-height;2rem;font-size:1rem;">点击文本进行编辑。</div>') ||
-                    context,
+                    content,
                 }}
               />
             </EditableHtml>
@@ -240,7 +242,7 @@ export default class ChoiceMaker extends Component {
             选项：
           </Divider>
           <ChoiceMain className="n-choice-main">
-            <CheckboxGroup onChange={this.onChange} value={answer}>
+            <CheckboxGroup onChange={this.onChange} value={answers}>
               {options.map((item, index) => {
                 return (
                   <div key={index} className="n-single-choice">

@@ -245,7 +245,7 @@ const Libs = ({ userId, request }) => {
                       fetchData();
                     }}
                     icon="sync"
-                    spin={loading}
+                    spin={!!loading}
                   >
                     刷新
                   </Button>

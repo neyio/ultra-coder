@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import CardWrapper from './CardWrapper';
 import Context from './Context';
 import update from 'immutability-helper';
+import { Empty } from 'antd';
 const move = cards => (dragIndex, hoverIndex) => {
   const dragCard = cards[dragIndex];
   const nextCards = update(cards, {

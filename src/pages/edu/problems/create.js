@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { PageHeader, Tabs, Divider, Button, Input, Spin, message, Affix } from 'antd';
+import { PageHeader, Tabs, Divider, Button, Input, Spin, message } from 'antd';
 import { connect } from 'dva';
 import { cx } from 'emotion';
 
@@ -33,52 +33,67 @@ const routes = [
 const initialState = {
   choice: {
     options: [null, null],
-    context: '<p>暂无内容</p>',
-    answer: [],
+    content: '<p>暂无内容</p>',
+    answers: [],
     mode: 'single',
     score: 0,
     optional: false,
   },
+  fillable: {
+    cutDownArray: [],
+    answers: [],
+  },
+  subjective: {
+    content: null,
+  },
 };
 
 const Problems = props => {
+  const {
+    showToolbar = true,
+    onCallback = () => {
+      router.push('/edu/problems');
+    },
+  } = props;
   const [title, setTitle] = useState(null);
   const [type, setType] = useState('choice');
   const [state, setState] = useState(initialState.choice);
-  const [subjectiveContent, setSubjectiveContent] = useState(null);
   const { loading, create } = props;
   return (
     <div style={{ background: '#fff', height: '100%', overflow: 'auto' }}>
       <PageHeader
-        onBack={() => {
-          router.push('/edu/titles');
-        }}
+        onBack={
+          showToolbar
+            ? () => {
+                router.push('/edu/problems');
+              }
+            : undefined
+        }
         title="创建题目"
-        breadcrumb={{ routes }}
+        breadcrumb={showToolbar ? { routes } : null}
         subTitle="注意：编辑完内容请点击右侧同步至服务器"
         extra={[
-          <Affix key="create-problem" offsetTop={110}>
-            <Button
-              type="primary"
-              icon="upload"
-              onClick={() => {
-                create(
-                  {
-                    api: 'user.problem.create',
-                    params: { userId: 1 },
-                    extra: { title, content: state, type },
-                  },
-                  response => {
-                    console.log('TCL: response', response);
-                    message.success('创建成功', 3);
-                    router.goBack();
-                  },
-                );
-              }}
-            >
-              同步至服务器
-            </Button>
-          </Affix>,
+          <Button
+            type="primary"
+            icon="upload"
+            key="create-problem"
+            onClick={() => {
+              create(
+                {
+                  api: 'user.problem.create',
+                  params: { userId: 1 },
+                  extra: { title, ...state, type },
+                },
+                response => {
+                  console.log('TCL: response', response);
+                  message.success('创建成功', 3);
+                  onCallback(response);
+                },
+              );
+            }}
+          >
+            提交创建
+          </Button>,
         ]}
       >
         <div>
@@ -98,8 +113,21 @@ const Problems = props => {
           <Tabs
             onChange={key => {
               console.log('active key', key);
-              setType(key);
+
               switch (key) {
+                case 'choice':
+                  setType(key);
+                  setState(initialState.choice);
+                  break;
+                case 'fillable':
+                  setType(key);
+                  setState(initialState.fillable);
+                  break;
+                case 'subjective':
+                  setType(key);
+                  setState(initialState.subjective);
+                  break;
+                default:
               }
             }}
             activeKey={type}
@@ -119,6 +147,7 @@ const Problems = props => {
                       ...state,
                       ...payload,
                     });
+                    console.log('show choiceMarker', { ...state, ...payload });
                   }}
                 />
               )}
@@ -152,21 +181,23 @@ const Problems = props => {
               <FillableViewer content="我国的首都是__北京__市" showAnswer />
             </TabPane>
             <TabPane tab="主观题" key="subjective">
-              <EditableHtml
-                onSubmit={t => setSubjectiveContent(t)}
-                text={subjectiveContent}
-                editable
-              >
-                <div
-                  className="markdown-section n-editable-text-default-container"
-                  dangerouslySetInnerHTML={{
-                    __html:
-                      ((subjectiveContent === '<p></p>' || !subjectiveContent) &&
-                        '<div style="font-weight:bold;border-bottom:1px solid #ccc;padding:1rem;line-height;2rem;font-size:1rem;">点击文本进行编辑。</div>') ||
-                      subjectiveContent,
-                  }}
-                />
-              </EditableHtml>
+              {type === 'subjective' && (
+                <EditableHtml
+                  onSubmit={content => setState({ ...state, content })}
+                  text={state.content}
+                  editable
+                >
+                  <div
+                    className="markdown-section n-editable-text-default-container"
+                    dangerouslySetInnerHTML={{
+                      __html:
+                        ((state.content === '<p></p>' || !state.content) &&
+                          '<div style="font-weight:bold;border-bottom:1px solid #ccc;padding:1rem;line-height;2rem;font-size:1rem;">点击文本进行编辑。</div>') ||
+                        state.content,
+                    }}
+                  />
+                </EditableHtml>
+              )}
             </TabPane>
           </Tabs>
         </div>

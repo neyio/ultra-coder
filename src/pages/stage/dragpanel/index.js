@@ -36,7 +36,7 @@ export default function DragPanelDemo() {
         resetDataSource={e => {
           resetDataSource = e;
         }}
-        dataSource={[
+        initialDataSource={[
           {
             id: 1,
             title: '题目1',

@@ -20,7 +20,7 @@ const reducer = (state, action) => {
 
 const Container = props => {
   const {
-    dataSource = [],
+    initialDataSource = [],
     showTreeView = false,
     rowKey = 'id',
     titleIndex = 'title',
@@ -35,7 +35,7 @@ const Container = props => {
       console.log('props.resetDataSource is empty');
     },
   } = props;
-  const [state, dispatch] = useReducer(reducer, dataSource);
+  const [state, dispatch] = useReducer(reducer, initialDataSource);
   useEffect(() => {
     console.log('init container');
     resetDataSource(data => dispatch({ type: RESET_CARD, payload: data }));
@@ -52,19 +52,29 @@ const Container = props => {
   return (
     <div className="container">
       <Context.Provider value={{ state, dispatch: dispatchHook, rowKey, titleIndex }}>
-        <div
-          className={bodyClassName}
-          style={{ display: 'flex', flexDirection: 'row', flex: 1, ...bodyStyle }}
-        >
-          <DndProvider backend={HTML5Backend}>
-            <div style={{ flex: 1 }}>{props.children}</div>
+        <DndProvider backend={HTML5Backend}>
+          <div
+            className={bodyClassName}
+            style={{ display: 'flex', flexDirection: 'row', flex: 1, ...bodyStyle }}
+          >
+            <div style={{ flex: 1, marginRight: showTreeView ? '150px' : '10px' }}>
+              {props.children}
+            </div>
             {showTreeView ? (
-              <div className={treeViewClassName} style={treeViewStyle}>
+              <div
+                className={treeViewClassName}
+                style={{ ...treeViewStyle, position: 'fixed', right: '20px' }}
+              >
+                <h4
+                  style={{ textAlign: 'center', display: state && state.length ? 'block' : 'none' }}
+                >
+                  拖动图标以排序
+                </h4>
                 <TreeViewer rowKey={rowKey} title={titleIndex} />
               </div>
             ) : null}
-          </DndProvider>
-        </div>
+          </div>
+        </DndProvider>
       </Context.Provider>
     </div>
   );
