@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { PageHeader, Divider, Button, Modal, Input, Spin, message, Affix, Empty } from 'antd';
 import { connect } from 'dva';
 import { cx } from 'emotion';
