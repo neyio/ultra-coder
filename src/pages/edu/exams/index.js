@@ -31,7 +31,7 @@ const routes = [
   },
 ];
 
-const Exams = ({ userId, request }) => {
+const Exams = ({ userId, request, showToolbar = true }) => {
   const config = {
     api: 'user.exam.get',
     params: { userId },
@@ -89,6 +89,7 @@ const Exams = ({ userId, request }) => {
         </Descriptions>
       </PageHeader>
       <Divider type="horizontal" className={cx('mg-t-10', 'mg-b-10')}></Divider>
+
       <section className={cx('pd-18', 'pd-t-10')}>
         <Table
           {...mixinSelection(selectedRowKeys, setSelectedRowKeys, {})}
@@ -111,7 +112,8 @@ const Exams = ({ userId, request }) => {
               key: 'updated_at',
               width: 190,
             },
-            {
+          ].concat(
+            (showToolbar && {
               title: '操作',
               key: 'actions',
               width: 180,
@@ -156,8 +158,9 @@ const Exams = ({ userId, request }) => {
                   </ButtonGroup>
                 );
               },
-            },
-          ]}
+            }) ||
+              undefined,
+          )}
           pagination={false}
           loading={loading}
           onChange={(_p, _f, s) => {
@@ -187,7 +190,7 @@ const Exams = ({ userId, request }) => {
                       fetchData();
                     }}
                     icon="sync"
-                   loading={loading}
+                    loading={loading}
                   >
                     刷新
                   </Button>

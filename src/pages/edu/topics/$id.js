@@ -121,7 +121,7 @@ const Topics = props => {
             background: '#f8f8f8f',
           }}
         >
-          <Spin tip="加载中..." spinning={!!loading ? loading.toString() : undefined}>
+          <Spin tip="加载中..." spinning={!!loading}>
             <EditableHtml
               text={content}
               editable

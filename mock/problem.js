@@ -18,6 +18,24 @@ const proxy = {
       title: '题目名称',
     },
   },
+  'GET /api/user/1/problem': mockjs.mock({
+    'data|10': [
+      {
+        'id|1-1000': 500,
+        title: '题目名称' + mockjs.mock('@id|1-1000'),
+        type: 'choice',
+        content: {
+          options: ['<p>选项1</p>', '<p>选型2</p>'],
+          content: '<p>区分' + mockjs.mock('@cparagraph') + '</p>',
+          answer: ['a'],
+          mode: 'single',
+          'score|1-10': 5,
+          optional: false,
+        },
+      },
+    ],
+    total: 23,
+  }),
   'POST /api/user/1/problem': (req, res) => {
     res.send(
       mockjs.mock({

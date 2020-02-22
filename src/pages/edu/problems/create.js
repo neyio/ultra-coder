@@ -50,7 +50,7 @@ const initialState = {
 
 const Problems = props => {
   const {
-    showToolbar = true,
+    pageMode = true,
     onCallback = () => {
       router.push('/edu/problems');
     },
@@ -63,14 +63,14 @@ const Problems = props => {
     <div style={{ background: '#fff', height: '100%', overflow: 'auto' }}>
       <PageHeader
         onBack={
-          showToolbar
+          pageMode
             ? () => {
                 router.push('/edu/problems');
               }
             : undefined
         }
         title="创建题目"
-        breadcrumb={showToolbar ? { routes } : null}
+        breadcrumb={pageMode ? { routes } : null}
         subTitle="注意：编辑完内容请点击右侧同步至服务器"
         extra={[
           <Button

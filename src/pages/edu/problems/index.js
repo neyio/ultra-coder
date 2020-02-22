@@ -22,9 +22,9 @@ const routes = [
   },
 ];
 
-const Libs = ({ userId, request }) => {
+const Libs = ({ userId, request, pageMode = true, onExport = () => {} }) => {
   const config = {
-    api: 'user.topic.get',
+    api: 'user.problem.get',
     params: { userId },
     extra: {},
     page: 1,
@@ -48,26 +48,45 @@ const Libs = ({ userId, request }) => {
   };
   return (
     <div style={{ background: '#fff' }}>
-      <PageHeader
-        title="题库"
-        breadcrumb={{ routes }}
-        extra={[
+      {pageMode ? (
+        <React.Fragment>
+          <PageHeader
+            title="题库"
+            breadcrumb={{ routes }}
+            extra={[
+              <Button
+                type="primary"
+                key="1"
+                icon="plus"
+                onClick={() => router.push('/edu/problems/create')}
+              >
+                创建题目
+              </Button>,
+            ]}
+          >
+            <Descriptions size="small" column={3}>
+              <Descriptions.Item label="题目数量">20</Descriptions.Item>
+              <Descriptions.Item label="最后一次更新日期">2017-10-10</Descriptions.Item>
+            </Descriptions>
+          </PageHeader>
+          <Divider type="horizontal" className={cx('mg-t-10', 'mg-b-10')}></Divider>
+        </React.Fragment>
+      ) : (
+        <div className="pd-20">
           <Button
             type="primary"
-            key="1"
-            icon="plus"
-            onClick={() => router.push('/edu/problems/create')}
+            onClick={() => {
+              onExport(
+                data.filter(i => {
+                  return new Set(selectedRowKeys).has(i.id);
+                }),
+              );
+            }}
           >
-            创建题目
-          </Button>,
-        ]}
-      >
-        <Descriptions size="small" column={3}>
-          <Descriptions.Item label="题目数量">20</Descriptions.Item>
-          <Descriptions.Item label="最后一次更新日期">2017-10-10</Descriptions.Item>
-        </Descriptions>
-      </PageHeader>
-      <Divider type="horizontal" className={cx('mg-t-10', 'mg-b-10')}></Divider>
+            导入选中题目
+          </Button>
+        </div>
+      )}
       <section className={cx('pd-18', 'pd-t-10')}>
         <Table
           {...mixinSelection(selectedRowKeys, setSelectedRowKeys, {})}
@@ -90,35 +109,40 @@ const Libs = ({ userId, request }) => {
               key: 'updated_at',
               width: 190,
             },
-            {
-              title: '操作',
-              key: 'actions',
-              width: 120,
-              render: (_, record) => {
-                return (
-                  <ButtonGroup>
-                    <Button
-                      shape="round"
-                      onClick={() => {
-                        download(record);
-                      }}
-                      icon="edit"
-                      size="small"
-                    ></Button>
+          ]
+            .concat(
+              pageMode
+                ? {
+                    title: '操作',
+                    key: 'actions',
+                    width: 120,
+                    render: (_, record) => {
+                      return (
+                        <ButtonGroup>
+                          <Button
+                            shape="round"
+                            onClick={() => {
+                              download(record);
+                            }}
+                            icon="edit"
+                            size="small"
+                          ></Button>
 
-                    <Button
-                      icon="delete"
-                      shape="round"
-                      size="small"
-                      onClick={() => {
-                        destroy(record);
-                      }}
-                    ></Button>
-                  </ButtonGroup>
-                );
-              },
-            },
-          ]}
+                          <Button
+                            icon="delete"
+                            shape="round"
+                            size="small"
+                            onClick={() => {
+                              destroy(record);
+                            }}
+                          ></Button>
+                        </ButtonGroup>
+                      );
+                    },
+                  }
+                : null,
+            )
+            .filter(Boolean)}
           pagination={false}
           loading={loading}
           onChange={(_p, _f, s) => {
@@ -126,47 +150,51 @@ const Libs = ({ userId, request }) => {
             const { field, order } = s;
             setSorter({ field, order });
           }}
-          footer={() => {
-            return (
-              <Row align="middle">
-                <Col span={24}>
-                  <span className="mg-r-18">操作:</span>
-                  <Button
-                    size="small"
-                    type="primary"
-                    icon="delete"
-                    onClick={() => {
-                      console.log(selectedRowKeys);
-                    }}
-                  >
-                    删除
-                  </Button>
-                  <span className="mg-r-10"></span>
-                  <Button
-                    size="small"
-                    onClick={() => {
-                      fetchData();
-                    }}
-                    icon="sync"
-                    spin={!!loading ? loading.toString() : undefined}
-                  >
-                    刷新
-                  </Button>
-                  <span className="mg-r-10"></span>
-                  <Button
-                    size="small"
-                    onClick={() => {
-                      fetchData();
-                    }}
-                    icon="plus"
-                    spin={!!loading ? loading.toString() : undefined}
-                  >
-                    创建
-                  </Button>
-                </Col>
-              </Row>
-            );
-          }}
+          footer={
+            pageMode
+              ? () => {
+                  return (
+                    <Row align="middle">
+                      <Col span={24}>
+                        <span className="mg-r-18">操作:</span>
+                        <Button
+                          size="small"
+                          type="primary"
+                          icon="delete"
+                          onClick={() => {
+                            console.log(selectedRowKeys);
+                          }}
+                        >
+                          删除
+                        </Button>
+                        <span className="mg-r-10"></span>
+                        <Button
+                          size="small"
+                          onClick={() => {
+                            fetchData();
+                          }}
+                          icon="sync"
+                          spin={!!loading ? loading.toString() : undefined}
+                        >
+                          刷新
+                        </Button>
+                        <span className="mg-r-10"></span>
+                        <Button
+                          size="small"
+                          onClick={() => {
+                            fetchData();
+                          }}
+                          icon="plus"
+                          spin={!!loading ? loading.toString() : undefined}
+                        >
+                          创建
+                        </Button>
+                      </Col>
+                    </Row>
+                  );
+                }
+              : null
+          }
         />
         <Pagination
           style={{ marginTop: '1rem' }}

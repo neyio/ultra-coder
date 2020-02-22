@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { PageHeader, Divider, Button, Modal, Input, Spin, message, Affix, Empty } from 'antd';
 import { connect } from 'dva';
 import { cx } from 'emotion';
@@ -25,23 +25,52 @@ const routes = [
     breadcrumbName: '测验库',
   },
   {
-    breadcrumbName: '创建测验',
+    breadcrumbName: '编辑测验',
   },
 ];
 const CreateExam = props => {
+  const { userId, show, loading, update } = props;
+  const {
+    match: {
+      params: { id },
+    },
+  } = props;
   const [title, setTitle] = useState(null);
   const [createModalVisible, setCreateModalVisible] = useState(false);
   const [indexModalVisible, setIndexModalVisible] = useState(false);
   const [content, setContent] = useState([]);
-  const { loading, create } = props;
   let resetDataSource = null;
+  const fetchData = useCallback(() => {
+    show(
+      {
+        api: 'user.exam.show',
+        params: {
+          userId,
+          examId: id,
+        },
+        extra: {},
+      },
+      response => {
+        const { title, content } = response;
+        setTitle(title);
+        setContent(content);
+        resetDataSource(content);
+      },
+    );
+  }, [show, userId, id, resetDataSource]);
+  useEffect(() => {
+    fetchData();
+    return () => {
+      console.log('umount');
+    };
+  }, [id, fetchData]);
   return (
     <div style={{ background: '#fff', height: '100%', overflow: 'auto' }}>
       <PageHeader
         onBack={() => {
           router.push('/edu/exams');
         }}
-        title="创建测验"
+        title="编辑测验"
         breadcrumb={{ routes }}
         subTitle="注意：编辑完内容请点击右侧同步至服务器"
         extra={[
@@ -72,10 +101,10 @@ const CreateExam = props => {
               type="primary"
               icon="upload"
               onClick={() => {
-                create(
+                update(
                   {
                     api: 'user.exam.create',
-                    params: { userId: 1 },
+                    params: { userId: 1, problemId: id },
                     extra: { title, content },
                   },
                   response => {
@@ -197,7 +226,16 @@ export default connect(
   },
   dispatch => {
     return {
-      create: ({ api = 'user.exam.create', params = {}, extra = {} }, callback) => {
+      update: ({ api = 'user.exam.update', params = {}, extra = {} }, callback) => {
+        dispatch({
+          type: `${NAMESPACE}/${ACTIONS.FETCH_RESTFUL_API}`,
+          payload: {
+            callback,
+            config: [api, params, extra],
+          },
+        });
+      },
+      show: ({ api = 'user.exam.show', params = {}, extra = {} }, callback) => {
         dispatch({
           type: `${NAMESPACE}/${ACTIONS.FETCH_RESTFUL_API}`,
           payload: {

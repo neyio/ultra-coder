@@ -1,7 +1,6 @@
 import React from 'react';
 import Wrapper from './Wrapper';
 import { css } from 'emotion';
-import { Affix } from 'antd';
 const RenderViewItem = props => {
   return (
     <span
@@ -18,9 +17,16 @@ const RenderViewItem = props => {
     </span>
   );
 };
-export default function TreeViewer({ targetRef = null, rowKey = 'id', titleIndex = 'title' }) {
+export default function TreeViewer({ rowKey = 'id', titleIndex = 'title' }) {
   return (
-    <Affix target={() => targetRef}>
+    <div
+      className={css`
+        background: #fff;
+        border-radius: 4px;
+        overflow: auto;
+        max-height: calc(100% -50px);
+      `}
+    >
       <Wrapper
         className={css`
           margin-left: 14px;
@@ -34,6 +40,6 @@ export default function TreeViewer({ targetRef = null, rowKey = 'id', titleIndex
         rowKey={rowKey}
         renderItem={record => <RenderViewItem title={record[titleIndex]} />}
       />
-    </Affix>
+    </div>
   );
 }
