@@ -5,6 +5,8 @@ import Markdown from 'braft-extensions/dist/markdown';
 import 'braft-editor/dist/index.css'; // 引入编辑器样式
 import 'braft-editor/dist/output.css';
 import 'braft-extensions/dist/code-highlighter.css';
+import { message } from 'antd';
+
 BraftEditor.use(Markdown({}));
 // 定义rem基准值
 const sizeBase = 14;
@@ -70,26 +72,25 @@ const controls = [
   'clear',
 ];
 
-export default class UltraEditor extends React.Component {
+export default class RichEditor extends React.Component {
   state = {
     // 创建一个空的value作为初始值
     value: BraftEditor.createEditorState(
-      typeof this.props.initialValue === 'function'
-        ? this.props.initialValue()
-        : this.props.initialValue || null,
+      typeof this.props.text === 'function' ? this.props.text() : this.props.text || null,
     ),
   };
 
   componentDidMount() {
+    if (this.props.setRef) {
+      this.props.setRef(this);
+    }
     // 假设此处从服务端获取html格式的编辑器内容
     // const htmlContent = await fetchEditorContent()
     // 使用BraftEditor.createEditorState将html字符串转换为编辑器需要的editorStat
     try {
       this.setState({
         value: BraftEditor.createEditorState(
-          typeof this.props.initialValue === 'function'
-            ? this.props.initialValue()
-            : this.props.initialValue || null,
+          typeof this.props.text === 'function' ? this.props.text() : this.props.text || null,
         ),
       });
     } catch (e) {
@@ -97,17 +98,24 @@ export default class UltraEditor extends React.Component {
     }
     console.log('editor mounted');
   }
-
+  setValue = value => {
+    this.setState({
+      value: BraftEditor.createEditorState(value),
+    });
+  };
   onSubmit = async () => {
     // 在编辑器获得焦点时按下ctrl+s会执行此方法
     // 编辑器内容提交到服务端之前，可直接调用value.toHTML()来获取HTML格式的内容
     const htmlContent = this.state.value.toHTML();
-    console.log('onChange');
-    this.props.onChange && this.props.onChange(htmlContent);
+    if (htmlContent === '<p></p>') {
+      return message.error('文本内容为空，无法预览。');
+    }
+    this.props.onSubmit && this.props.onSubmit(htmlContent);
   };
 
   onChange = value => {
     this.setState({ value });
+    this.props.onChange && this.props.onChange(value);
   };
 
   uploadFn = async param => {
@@ -185,6 +193,7 @@ export default class UltraEditor extends React.Component {
         type: 'button',
         text: '保存',
         onClick: this.onSubmit,
+        className: 'editor-save-btn',
       },
     ];
     return (
@@ -196,6 +205,7 @@ export default class UltraEditor extends React.Component {
         controls={controls}
         converts={{ unitImportFn, unitExportFn }}
         extendControls={extendControls}
+        placeholder="请输入内容"
         media={{ uploadFn: this.uploadFn }}
       />
     );

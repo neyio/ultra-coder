@@ -1,8 +1,12 @@
 @import './custom.less';
 @import '~antd/lib/style/themes/default.less';
 @import './components/less/index.less';
+@import './components/Dynamic/dynamic.less';
+
 @import './pages/problem/_layout.less';
 @import './pages/user/_layout.less';
+@import './pages/stage/_layout.less';
+
 html,
 body,
 #root,
@@ -25,6 +29,12 @@ body {
   flex-direction: column;
   overflow: auto;
 }
+
+.bf-controlbar .control-item.button.editor-save-btn {
+  color: #eee;
+  background: #000;
+}
+
 .ultra-header {
   // padding: @space-base @space-base*3!important;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
@@ -32,14 +42,38 @@ body {
 
 @box-shadow-layout: 0 2px 4px rgba(0, 0, 0, 0.05);
 
-.generate-pd-mg(18);
+.generate-pd-mg(20);
 
 .generate-pd-mg(@n, @i: 0) when (@i =< @n) {
   .pd-@{i} {
     padding: (@i*1px);
   }
+  .pd-l-@{i} {
+    padding-left: (@i*1px);
+  }
+  .pd-r-@{i} {
+    padding-right: (@i*1px);
+  }
+  .pd-t-@{i} {
+    padding-top: (@i*1px);
+  }
+  .pd-b-@{i} {
+    padding-bottom: (@i*1px);
+  }
   .mg-@{i} {
     margin: (@i*1px);
+  }
+  .mg-l-@{i} {
+    margin-left: (@i*1px);
+  }
+  .mg-r-@{i} {
+    margin-right: (@i*1px);
+  }
+  .mg-t-@{i} {
+    margin-top: (@i*1px);
+  }
+  .mg-b-@{i} {
+    margin-bottom: (@i*1px);
   }
   .generate-pd-mg(@n, (@i + 1));
 }

@@ -7,7 +7,7 @@ function insertText($vm, params) {
   if ($vm.selectionStart || $vm.selectionStart === 0) {
     const start = $vm.selectionStart;
     const end = $vm.selectionEnd;
-    const restoreTop = $vm.scrollTop;
+    // const restoreTop = $vm.scrollTop;
     if (start === end) {
       $vm.value =
         value.substring(0, start) + prefix + str + subfix + value.substring(end, value.length);
@@ -24,11 +24,10 @@ function insertText($vm, params) {
       $vm.selectionEnd = end + prefix.length;
     }
     $vm.focus();
-    if (restoreTop >= 0) {
-      $vm.scrollTop = restoreTop;
-    }
+    // if (restoreTop >= 0) {
+    //   $vm.scrollTop = restoreTop;
+    // }
   }
-  console.log($vm.value);
   return $vm.value;
 }
 

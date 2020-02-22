@@ -79,12 +79,12 @@ class Dashboard extends React.Component {
                             </span>
                           }
                         >
-                          <Menu.ItemGroup key="g1" title="基本信息">
+                          <Menu.ItemGroup key="1g1" title="基本信息">
                             <Menu.Item key="/">个人中心</Menu.Item>
                             <Menu.Item key="/my-grammers">我的教案</Menu.Item>
                             <Menu.Item key="/pre-create">创建教案</Menu.Item>
                           </Menu.ItemGroup>
-                          <Menu.ItemGroup key="g2" title="授课管理">
+                          <Menu.ItemGroup key="1g2" title="授课管理">
                             <Menu.Item key="/groups">班级群组</Menu.Item>
                             <Menu.Item key="/statistic">统计信息</Menu.Item>
                           </Menu.ItemGroup>

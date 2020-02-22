@@ -5,7 +5,7 @@ const Wrapper = WrappedComponent => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [toggle, setToggle] = useState(initToggle);
     if (toggle) {
-      return <> {props.children(setToggle)}</>;
+      return <React.Fragment> {props.children(setToggle)}</React.Fragment>;
     } else {
       return (
         <WrappedComponent

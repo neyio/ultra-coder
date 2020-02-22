@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import request from '@/utils/routes';
+
 import assert from 'assert';
+import { connect } from 'dva';
+import { NAMESPACE } from '../../models/request';
 
 const pickNotInKeys = (obj, keys) =>
   Object.keys(obj).reduce((pre, i) => {
@@ -9,14 +11,17 @@ const pickNotInKeys = (obj, keys) =>
 
 const DynamicAction = WrappedComponent => {
   const Component = ({
-    eventtype = 'onClick',
-    action,
+    eventType = 'onClick',
+    dispatch,
+    action = {},
+    reduxEvent = null,
     callback = r => {
       console.log(r);
     },
+    restfulApiRequest,
     ...props
   }) => {
-    const preProps = { eventtype, action, callback, ...props };
+    const preProps = { eventType, reduxEvent, action, callback, ...props };
     const [loading, setLoading] = useState(false);
     const [observer, setObserver] = useState({});
     const reducer = async arg => {
@@ -27,32 +32,58 @@ const DynamicAction = WrappedComponent => {
         setObserver(await arg());
       }
     };
-    const originEventHandler = props[eventtype] || (() => {});
+    const originEventHandler = props[eventType] || (() => {});
     const eventHandler = async () => {
       setLoading(true);
       await originEventHandler();
       try {
-        if (action && typeof action === 'object') {
-          const { keyChain, params = {}, body = {}, extra = {} } = action;
-          assert(action.keyChain, 'action.keyChain 必须输入，详见 @/utils/routes');
-          await request(keyChain, params, body, extra); // 发起请求
-          callback(reducer, newProps);
+        if (reduxEvent) {
+          assert(reduxEvent && reduxEvent.type, 'reduxEvent必须包含 type');
+          const type = reduxEvent.type;
+          const payload = reduxEvent.payload;
+          await dispatch({
+            type,
+            payload: {
+              ...payload,
+              callback: () => {
+                callback(reducer, newProps);
+              },
+            },
+          });
         } else {
-          throw new Error(
-            'props.action is not an object with attributes [keyChain,body={any queryBody},params={id:x},extra={any}] ',
-          );
+          if (action && typeof action === 'object') {
+            const { api, params = {}, body = {}, extra = {} } = action;
+            assert(api, 'action.api 必须输入，详见 @/apiMap');
+            await restfulApiRequest(api, params, body, extra); // 发起请求
+            callback(reducer, newProps);
+          } else {
+            throw new Error(
+              'props.action is not an object with attributes [api,body={any queryBody},params={id:x},extra={any}] ',
+            );
+          }
         }
       } catch (e) {
         console.error(e);
       }
       setLoading(false);
     };
-    const newProps = { ...preProps, ...observer, [eventtype]: eventHandler };
+    const newProps = { ...preProps, ...observer, [eventType]: eventHandler };
     return (
-      <WrappedComponent {...pickNotInKeys(newProps, ['callback', 'action'])} disabled={loading} />
+      <WrappedComponent
+        loading={loading ? loading : undefined}
+        {...pickNotInKeys(newProps, ['callback', 'action', 'eventType', 'dispatch', 'reduxEvent'])}
+        disabled={loading}
+      />
     );
   };
-  return Component;
+  return connect(
+    state => ({
+      restfulApiRequest: state[NAMESPACE].restfulApiRequest,
+    }),
+    dispatch => {
+      return { dispatch };
+    },
+  )(Component);
 };
 
 export default DynamicAction;

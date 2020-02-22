@@ -17,15 +17,22 @@ const proxy = {
       },
     },
     // 接口返回
-    $body: {
-      data: Array.from({ length: 10 }).map((_, i) => ({
-        title: `title - ${i}`,
-        createdAt: Date.now(),
-      })),
+    $body: mockjs.mock({
+      'data|10': [{ title: '@city', 'value|1-100': 50, 'type|0-2': 1 }],
       page: 1,
       size: 10,
       total: 25,
-    },
+    }),
+
+    // {
+    //   data: Array.from({ length: 10 }).map((_, i) => ({
+    //     title: `title - ${i}`,
+    //     createdAt: Date.now(),
+    //   })),
+    //   page: 1,
+    //   size: 10,
+    //   total: 25,
+    // },
   },
   'GET /api/tags': mockjs.mock({
     'list|100': [{ name: '@city', 'value|1-100': 50, 'type|0-2': 1 }],

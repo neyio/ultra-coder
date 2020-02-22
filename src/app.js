@@ -1,7 +1,7 @@
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import autoMergeLevel2 from 'redux-persist/es/stateReconciler/autoMergeLevel2';
-
+import { ACTIONS, NAMESPACE } from './models/system';
 //持久化配置
 const persistConfig = {
   timeout: 5000, // you can define your time. But is required.
@@ -15,7 +15,11 @@ const persistConfig = {
 const persistEnhancer = () => createStore => (reducer, initialState, enhancer) => {
   const store = createStore(persistReducer(persistConfig, reducer), initialState, enhancer);
   const persist = persistStore(store, null, (...hooks) => {
-    console.log(store, 'Hook to do sth when store is inited.');
+    console.log('get store', 'Hook to do sth when store is inited.');
+    store.dispatch({
+      type: `${NAMESPACE}/${ACTIONS.SET_REDUX_PERSIST_RECOVER}`,
+      payload: true,
+    });
   });
   return {
     persist,

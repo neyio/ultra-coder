@@ -2,7 +2,7 @@ import React from 'react';
 import { Comment, Tooltip, Icon, Button } from 'antd';
 import moment from 'moment';
 import DynamicList from '@/components/Dynamic/List';
-import ActionWrapper from './../../../components/Dynamic/Action';
+import ActionWrapper from '@/components/Dynamic/Action';
 const IconAction = ActionWrapper(Icon);
 const ButtonAction = ActionWrapper(Button);
 
@@ -26,7 +26,7 @@ const Item = props => {
               shape="circle"
               type="link"
               action={{
-                keyChain: 'post.comment.get',
+                api: 'post.comment.get',
                 params: { postId: 1, commentId: 1 },
               }}
             >
@@ -42,7 +42,7 @@ const Item = props => {
                 console.log('like');
               }}
               action={{
-                keyChain: 'post.comment.get',
+                api: 'post.comment.get',
                 params: { postId: 1, commentId: 1 },
               }}
             />
@@ -101,7 +101,7 @@ const History = props => {
   return (
     <DynamicList
       items={[]}
-      action={{ keyChain: 'post.comment.get', params: { postId: 1 }, extra: { size: 10, page: 1 } }}
+      action={{ api: 'post.comment.get', params: { postId: 1 }, extra: { size: 10, page: 1 } }}
       renderItem={(item, index) => {
         return <Item data={item} />;
       }}
