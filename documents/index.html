@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Neyio's 技术小憩站 「 旨在快速学习和应用，内容不周之处还望指出以帮助我，万分感谢 」For Learning 。 </title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="description" content="古人学问无遗力，少壮工夫老始成。纸上得来终觉浅，绝知此事要躬行。">
+  <meta name="viewport"
+    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <link rel="stylesheet" href="./assets/vue.css">
+  <link rel="stylesheet" href="./assets/custom.css">
+  <link rel="stylesheet" href="//unpkg.com/gitalk/dist/gitalk.css">
+  <style>
+    footer.neyio-footer {
+      text-align: right;
+      opacity: 0.3;
+    }
+
+    .cover-main p img[data-origin] {
+      max-width: 300px;
+      max-height: 300px;
+      border-radius: 50%;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">Loading</div>
+  <script>
+    window.$docsify = {
+      name: '静, 以致远',
+      repo: 'https://github.com/neyio/neyio.github.io',
+      coverpage: 'cover.md', //封面 设置 _coverpage.md ,coverpage: ['/', '/zh-cn/']用于配置多个语言封面
+      loadSidebar: 'sidebar.md', //修改每个文件夹下的 _sidebar.md
+      loadNavbar: 'navbar.md',
+      homepage: 'README.md',
+      subMaxLevel: 3, //侧边栏最大显示深度
+      // 完整配置参数
+      search: 'auto', // 默认值
+      auto2top: true, //Scrolls to the top of the screen when the route is changed.
+      plugins: [
+        (hook) => {
+          const footer = [
+            '<hr/>',
+            '<footer class="neyio-footer"><span>Neyio Markdowned Website With <a href="https://github.com/docsifyjs/docsify" target="_blank">Docsify</a>.</span></footer>'
+          ].join('');
+          hook.afterEach((html) => html + footer);
+        }
+      ]
+    }
+  </script>
+  <script src="//unpkg.com/docsify/lib/docsify.min.js"></script>
+  <script src="//unpkg.com/docsify/lib/plugins/search.js"></script>
+  <script src="//unpkg.com/docsify-copy-code"></script>
+  <script src="//unpkg.com/docsify/lib/plugins/zoom-image.js"></script>
+  <script src="//unpkg.com/docsify/lib/plugins/emoji.js"></script>
+  <script src="//unpkg.com/docsify-pagination/dist/docsify-pagination.min.js"></script>
+  <script src="//unpkg.com/prismjs/components/prism-bash.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify-tabs@1"></script>
+  <script src="//unpkg.com/docsify/lib/plugins/emoji.min.js"></script>
+</body>
+
+</html>

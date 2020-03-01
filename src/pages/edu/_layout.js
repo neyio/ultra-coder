@@ -97,7 +97,7 @@ class Dashboard extends React.Component {
                           title={
                             <span>
                               <Icon type="edit" />
-                              <span>在线判题系统</span>
+                              <span>教学系统</span>
                             </span>
                           }
                         >

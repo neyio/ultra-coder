@@ -1,5 +1,6 @@
 ## 定义路由表
 
+```json
 {
   [key:string]:{
     restful?: boolean;
@@ -8,8 +9,9 @@
     }
   }
 }
+```
 
-### 示例如下:
+### Demo
 
 ```javascript
 export default {
@@ -35,3 +37,6 @@ export default {
 };
 
 ```
+
+### USEAGE
+
